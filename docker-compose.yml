@@ -1,0 +1,18 @@
+version: '3.9'
+services:
+    # Media Panel
+    media-panel:
+        container_name: media-panel
+        build: .
+        image: media-panel:1.0
+        ports:
+            - ${PANEL_PORT}:5000 #HTTP
+            - ${PANEL_PREVIEW_PORT}:5001
+        environment:
+            HOST: 0.0.0.0
+        volumes:
+            - .:/home/app
+            - /home/app/node_modules
+        working_dir: /home/app
+        command: npm run dev
+        # command: npm run preview

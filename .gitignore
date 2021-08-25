@@ -1,0 +1,4 @@
+node_modules
+dist
+/Icon?
+.DS_Store

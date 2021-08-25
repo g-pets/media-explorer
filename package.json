@@ -1,0 +1,23 @@
+{
+	"name": "media-panel",
+	"version": "1.0.0",
+	"license": "MIT",
+	"scripts": {
+		"dev": "vite",
+		"build": "vite build",
+		"serve": "vite preview --port 5001",
+		"preview": "vite build && vite preview --port 5001"
+	},
+	"dependencies": {
+		"nib": "^1.1.2",
+		"pug": "^3.0.2",
+		"stylus": "^0.54.8",
+		"vue": "^3.0.11",
+		"vue-router": "^4.0.8"
+	},
+	"devDependencies": {
+		"@vitejs/plugin-vue": "^1.2.2",
+		"@vue/compiler-sfc": "^3.0.11",
+		"vite": "^2.3.6"
+	}
+}
