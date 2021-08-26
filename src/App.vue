@@ -1,17 +1,19 @@
 <template lang="pug">
 icons-set
-.app-container
+.app-container(v-if="!fetchStatus.isLoading")
 	router-view
 </template>
 
 <script>
+import { onBeforeMount } from "vue"
 import IconsSet from "~/components/Icons/IconsSet.vue"
-import Store from "~/store/store.js"
+import Store from "~/store/Store.js"
 export default {
 	components: { IconsSet },
 	setup() {
-		const { fetchRecords } = Store()
-		fetchRecords()
+		const { fetchRecords, fetchStatus } = Store()
+		onBeforeMount(() => fetchRecords())
+		return { fetchStatus }
 	}
 };
 </script>

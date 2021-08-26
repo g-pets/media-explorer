@@ -14,6 +14,14 @@ const records = reactive({
 	selectedRecord: null
 })
 
+const editor = reactive({
+	cellSize: 8,
+	showAuthor: false,
+	showRejected: false,
+	showProcessed: false,
+	expanded: false
+})
+
 export default function useStore() {
 
 	const fetchRecords = async () => {
@@ -42,12 +50,21 @@ export default function useStore() {
 
 	const selectRecord = id => records.selectedRecord = records.fetchedRecords[id]
 	const rejectRecord = id => records.fetchedRecords[id].rejected = !records.fetchedRecords[id].rejected
+	const checkRecord = id => records.fetchedRecords[id].checked = !records.fetchedRecords[id].checked
+
+	const expandRecord = () => editor.expanded = true
+	const collapseRecord = () => editor.expanded = false
 
 	return {
+		...toRefs(store),
 		...toRefs(records),
 		fetchRecords,
 		selectRecord,
-		rejectRecord
+		rejectRecord,
+		checkRecord,
+		expandRecord,
+		collapseRecord,
+		editor
 	}
 
 }

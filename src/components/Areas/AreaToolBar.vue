@@ -24,7 +24,7 @@ aside.area.area-tool-bar
 </template>
 
 <script>
-import Store from "~/store/store.js"
+import Store from "~/store/Store.js"
 import gSwitcher from "~/components/Controls/gSwitcher.vue"
 import gCheckers from "~/components/Controls/gCheckers.vue"
 import gButton from "~/components/Controls/gButton.vue"

@@ -2,13 +2,13 @@
 .content
 
 	.item-active(v-if="editor.expanded")
-		video(:src="currentItem.video_files[0].link" controls muted autoplay loop)
+		video(:src="selectedRecord.video_files[0].link" controls muted autoplay loop)
 
 	.items-list(:style="gridStyle" :class="[editor.expanded ? 'strip-view' : 'grid-view']")
 		template(v-for="(item, id) in fetchedRecords")
 			.media-item(
 				@click="recordClick(id)"
-				@click.meta="selectRecord(id)"
+				@click.meta="checkRecord(id)"
 				@click.alt="rejectRecord(id)")
 				icon(v-if="item.rejected" name="reject")
 				icon(v-if="item.selected" name="check")
@@ -18,8 +18,7 @@
 					//- 	@mousemove="startSlideshow(id, $event)"
 					//- 	@mouseleave="stopSlideshow(id, $event)"
 					//- 	:src="item.image" loading="lazy")
-					img(
-						:src="item.image" loading="lazy")
+					img(:src="item.image" loading="lazy")
 	
 //- .view-control
 	.filters Filters:
@@ -38,32 +37,20 @@
 </template>
 
 <script>
-import { reactive, onMounted, computed, toRefs } from "vue"
-import Store from "~/store/store.js"
+import { computed, onMounted } from "vue"
+import Store from "~/store/Store.js"
 export default {
 	setup() {
 		const {
 			fetchedRecords,
 			selectRecord,
-			rejectRecord } = Store()
-		
-		const state = reactive({
-			isLoading: true,
-			isError: false,
-			errorMessage: '',
-			fetchedItems: null,
-			currentItems: null,
-			currentItem: null
-		})
-		let editor = reactive({
-			api: "/databaseFullShort.json",
-			index: 0,
-			cellSize: 8,
-			showAuthor: false,
-			showRejected: false,
-			showProcessed: false,
-			expanded: false
-		})
+			selectedRecord,
+			checkRecord,
+			rejectRecord,
+			expandRecord,
+			collapseRecord,
+			editor } = Store()
+
 
 
 		const gridStyle = computed(() => {
@@ -73,9 +60,7 @@ export default {
 		})
 		
 
-		const expandVideo = () => editor.expanded = true
-		const activeItem = id => state.fetchedItems[id].selected = !state.fetchedItems[id].selected
-		
+		console.log(fetchedRecords.length)
 
 		// Slideshow (optimization needed)
 		const preloadSlideshow = id => {
@@ -100,37 +85,62 @@ export default {
 		}
 
 		
-		const closeVideo = id => state.currentItem = null
+		
 
 
 		let timer
 		let clicks = 0
 		const recordClick = id => {
+			selectRecord(id)
 			clicks++
 			if (clicks === 1) {
 				timer = setTimeout(() => {
 					console.log("Single")
-					selectRecord(id)
 					clicks = 0
 				}, 200);
 			} else {
 				clearTimeout(timer);  
-				selectRecord(id);
-				expandVideo(id);
+				expandRecord(id);
 				console.log("Double")
 				clicks = 0;
 			}
         }
 
+
+		const hotKeysListner = () => {
+			window.addEventListener('keydown', event => {
+				// event.preventDefault();
+				if (event.key === "Escape") collapseRecord()
+				if (event.key === "Enter") expandRecord()
+				if (event.key === "p" || event.key === "Backspace") rejectVideo();
+				if (event.key === "ArrowLeft") nextVideo(-1);
+				if (event.key === "ArrowRight") nextVideo(1);
+				if (event.key === "ArrowUp") nextVideo(-10);
+				if (event.key === "ArrowDown") nextVideo(10);
+				if (event.key === "1") setRating(1)
+				if (event.key === "2") setRating(2)
+				if (event.key === "3") setRating(3)
+				if (event.key === "4") setRating(4)
+				if (event.key === "5") setRating(5)
+			})
+		}
+
+		onMounted(() => {
+			hotKeysListner();
+		})
+
 		return {
 			editor,
 			fetchedRecords,
 			selectRecord,
+			checkRecord,
 			rejectRecord,
+			selectedRecord,
 			recordClick,
 			preloadSlideshow,
 			startSlideshow,
-			stopSlideshow
+			stopSlideshow,
+			gridStyle
 			}
 
 		// return {
@@ -156,19 +166,6 @@ export default {
 	box-shadow: 0 -0.1em 0.4em rgba(#000,0.2)
 
 .items-list
-	&.strip-view
-		display: flex
-		width: 100%
-
-	&.grid-view
-		display: grid
-		grid-template-columns: repeat( auto-fill, minmax(var(--media-grid-cell-size), 1fr) )
-		grid-template-rows: repeat(auto-fill, 5em) 20%
-		width: 100%
-		min-height: 100%
-		gap: 1vw
-		background: #111
-		padding: 1vw
 	.media-item
 		cursor: pointer
 		position: relative
@@ -215,5 +212,17 @@ export default {
 					opacity: 0.5
 			&.rejected
 				filter: saturate(0%) contrast(70%) brightness(40%)
+	&.strip-view
+		display: flex
+		width: 100%
+	&.grid-view
+		display: grid
+		grid-template-columns: repeat( auto-fill, minmax(var(--media-grid-cell-size), 1fr) )
+		grid-template-rows: repeat(auto-fill, 5em) 20%
+		width: 100%
+		min-height: 100%
+		gap: 1vw
+		background: #111
+		padding: 1vw
 
 </style>
