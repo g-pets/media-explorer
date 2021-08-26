@@ -4,18 +4,22 @@ header.area.area-top-bar
 		icon(name="logo")
 		span.title Explorer
 	.controls
+		icon(name="help" @click="toggleHelp()")
 		icon(name="fullscreen" @click="toggleFullscreen()")
+	
+//- .help help
 </template>
 
 <script>
 export default {
 	setup() {
+		const toggleHelp = () => {}
 		const toggleFullscreen = () => {
 			if (!document.fullscreenElement) document.documentElement.requestFullscreen();
 			else document.exitFullscreen();
 		}
 
-		return { toggleFullscreen }
+		return { toggleHelp, toggleFullscreen }
 	}
 };
 </script>
@@ -42,5 +46,11 @@ header.area.area-top-bar
 		svg
 			fill: #fff
 			width: 1.5em
-			height: 1.5em				
+			height: 1.5em	
+.help
+	position: absolute
+	top: 0
+	left: 0
+	width: 50%
+	background: #333		
 </style>

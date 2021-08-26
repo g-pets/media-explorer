@@ -1,20 +1,26 @@
 <template lang="pug">
-template(v-if="isError") {{errorMessage}}
-template(v-else-if="isLoading") Loading...
-.media-grid(v-else :style="gridStyle")
-	template(v-for="(item, id) in fetchedItems")
-		.media-item(
-			
-			@click.meta="selectItem(id)"
-			@click.alt="rejectItem(id)")
-			icon(v-if="item.rejected" name="reject")
-			icon(v-if="item.selected" name="check")
-			.cover(:class="{selected:item.selected, rejected:item.rejected}")
-				img(
-					@mouseover="preloadSlideshow(id)"
-					@mousemove="startSlideshow(id, $event)"
-					@mouseleave="stopSlideshow(id, $event)"
-					:src="item.image" loading="lazy")
+.content
+
+	.item-active(v-if="editor.expanded")
+		video(:src="currentItem.video_files[0].link" controls muted autoplay loop)
+
+	.items-list(:style="gridStyle" :class="[editor.expanded ? 'strip-view' : 'grid-view']")
+		template(v-for="(item, id) in fetchedRecords")
+			.media-item(
+				@click="recordClick(id)"
+				@click.meta="selectRecord(id)"
+				@click.alt="rejectRecord(id)")
+				icon(v-if="item.rejected" name="reject")
+				icon(v-if="item.selected" name="check")
+				.cover(:class="{selected:item.selected, rejected:item.rejected}")
+					//- img(
+					//- 	@mouseover="preloadSlideshow(id)"
+					//- 	@mousemove="startSlideshow(id, $event)"
+					//- 	@mouseleave="stopSlideshow(id, $event)"
+					//- 	:src="item.image" loading="lazy")
+					img(
+						:src="item.image" loading="lazy")
+	
 //- .view-control
 	.filters Filters:
 		label.showRejected.checker(title="Show all videos of this author")
@@ -33,26 +39,30 @@ template(v-else-if="isLoading") Loading...
 
 <script>
 import { reactive, onMounted, computed, toRefs } from "vue"
+import Store from "~/store/store.js"
 export default {
 	setup() {
+		const {
+			fetchedRecords,
+			selectRecord,
+			rejectRecord } = Store()
+		
 		const state = reactive({
 			isLoading: true,
 			isError: false,
 			errorMessage: '',
 			fetchedItems: null,
 			currentItems: null,
+			currentItem: null
 		})
-		// let fetchedVideos = reactive({})
-		// const filteredVideos = reactive({})
-		// const currentVideo = reactive({})
 		let editor = reactive({
 			api: "/databaseFullShort.json",
-			// api: "http://localhost:82/v1/videos",
 			index: 0,
 			cellSize: 8,
 			showAuthor: false,
 			showRejected: false,
-			showProcessed: false
+			showProcessed: false,
+			expanded: false
 		})
 
 
@@ -62,46 +72,21 @@ export default {
 			}
 		})
 		
-		
-		const fetchItems = async () => {
-			console.group("⬇️ Fetching Items from API...")
-			try {
-				let response = await fetch(editor.api);
-				if(!response.ok) throw new Error(`Fetching from API: ${response.statusText}`)
-				let parsed = await response.json();
-				let data = parsed
-				console.log(`· Fetched ${data.length} items.`);
-				const mapped = {}
-				data.forEach(item => {
-					mapped[item.id] = item
-				});
-				state.fetchedItems = mapped;
-			} catch(error) {
-				console.error(`‼️ Fetched: ${error}`)
-				state.isError = true
-				state.errorMessage = error.message
-			} finally {
-				console.groupEnd();
-				state.isLoading = false;
-			}
-		}
 
-
+		const expandVideo = () => editor.expanded = true
 		const activeItem = id => state.fetchedItems[id].selected = !state.fetchedItems[id].selected
-		const selectItem = id => state.fetchedItems[id].selected = !state.fetchedItems[id].selected
-		const rejectItem = id => state.fetchedItems[id].rejected = !state.fetchedItems[id].rejected
 		
 
 		// Slideshow (optimization needed)
 		const preloadSlideshow = id => {
-			const previews = state.fetchedItems[id].video_pictures.map(item => item.picture)
+			const previews = fetchedRecords[id].video_pictures.map(item => item.picture)
 			previews.forEach(image => {
 				let img = new Image();
 				img.src = image;
 			})
 		}
 		const startSlideshow = (id, event) => {
-			const previews = state.fetchedItems[id].video_pictures.map(item => item.picture)
+			const previews = fetchedRecords[id].video_pictures.map(item => item.picture)
 			const itemWidth = event.target.clientWidth
 			let frameWidth = Math.round(itemWidth / previews.length)
 			let mousePosition = event.layerX;
@@ -110,19 +95,57 @@ export default {
 			// console.log()
 		}
 		const stopSlideshow = (id, event) => {
-			const preview = state.fetchedItems[id].image
+			const preview = fetchedRecords[id].image
 			event.target.src = preview
 		}
 
-		onMounted(() => fetchItems())
+		
+		const closeVideo = id => state.currentItem = null
 
-		return { editor, ...toRefs(state), fetchItems, rejectItem, selectItem, gridStyle, activeItem, preloadSlideshow, startSlideshow, stopSlideshow }
+
+		let timer
+		let clicks = 0
+		const recordClick = id => {
+			clicks++
+			if (clicks === 1) {
+				timer = setTimeout(() => {
+					console.log("Single")
+					selectRecord(id)
+					clicks = 0
+				}, 200);
+			} else {
+				clearTimeout(timer);  
+				selectRecord(id);
+				expandVideo(id);
+				console.log("Double")
+				clicks = 0;
+			}
+        }
+
+		return {
+			editor,
+			fetchedRecords,
+			selectRecord,
+			rejectRecord,
+			recordClick,
+			preloadSlideshow,
+			startSlideshow,
+			stopSlideshow
+			}
+
+		// return {
+		// 	fetchedRecords,
+		// 	itemClick, editor, ...toRefs(state), rejectItem, selectItem, gridStyle, activeItem, preloadSlideshow, startSlideshow, stopSlideshow }
 
 	}
 };
 </script>
 
 <style lang="stylus">
+
+.item-active
+	video
+		width: 100%
 .view-control
 	font-size: 0.8em
 	width: 100%
@@ -131,15 +154,21 @@ export default {
 	background: #222
 	z-index: 10
 	box-shadow: 0 -0.1em 0.4em rgba(#000,0.2)
-.media-grid
-	display: grid
-	grid-template-columns: repeat( auto-fill, minmax(var(--media-grid-cell-size), 1fr) )
-	grid-template-rows: repeat(auto-fill, 5em) 20%
-	width: 100%
-	min-height: 100%
-	gap: 1vw
-	background: #111
-	padding: 1vw
+
+.items-list
+	&.strip-view
+		display: flex
+		width: 100%
+
+	&.grid-view
+		display: grid
+		grid-template-columns: repeat( auto-fill, minmax(var(--media-grid-cell-size), 1fr) )
+		grid-template-rows: repeat(auto-fill, 5em) 20%
+		width: 100%
+		min-height: 100%
+		gap: 1vw
+		background: #111
+		padding: 1vw
 	.media-item
 		cursor: pointer
 		position: relative
@@ -187,44 +216,4 @@ export default {
 			&.rejected
 				filter: saturate(0%) contrast(70%) brightness(40%)
 
-
-.view.grid-view
-	.top-bar
-		font-size: 0.8em
-		display: flex
-		align-items: center
-		justify-content: space-between
-		padding: 0.5em 1em
-		.api
-			display: flex
-			align-items: center
-			input
-				margin: 0 0.3em
-				background: #333
-				border: none
-				outline: none
-				padding: 0.5em 0.5em
-				border-radius: 0.5em
-	.content
-		display: flex
-		.video-container
-			margin: auto
-			width: 90%
-			position: relative
-			video
-				width: 100%
-				width: 100%
-				transition: opacity .2s
-			&.rejected
-				video
-					filter: saturate(0%)
-					opacity: 0.7
-			svg.icon-rejected
-				width: 5vw
-				height: 5vw
-				fill: red
-				position: absolute
-				z-index: 1
-				top: 0.5em
-				left: 0.5em	
 </style>

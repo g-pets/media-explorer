@@ -1,5 +1,8 @@
 <template lang="pug">
 aside.area.area-tool-bar
+	.section(v-if="selectedRecord")
+		div ID: {{selectedRecord.id}}
+		div Duration: {{selectedRecord.duration}}
 	//- .section
 		h3 Rating:
 		star-rating(v-model:rating="currentVideo.data.rating" :star-size="20" inactive-color="#444" active-color="#bda522" :show-rating="false" :padding="5")
@@ -21,16 +24,18 @@ aside.area.area-tool-bar
 </template>
 
 <script>
+import Store from "~/store/store.js"
 import gSwitcher from "~/components/Controls/gSwitcher.vue"
 import gCheckers from "~/components/Controls/gCheckers.vue"
 import gButton from "~/components/Controls/gButton.vue"
 export default {
 	components: { gSwitcher, gCheckers, gButton },
 	setup() {
+		const { selectedRecord } = Store()
 		const tempo = ['slow', 'normal', 'fast']
 		const type = ['aero', 'static', 'timelapse']
 		const tags = ['nature', 'stars', 'space', 'moon', 'mountains', 'relax', 'abstract', 'blur', 'texture', 'sky', 'clouds', 'sunset', 'forest', 'landscape', 'night', 'rain', 'snow', 'waves', 'water', 'ocean', 'storm', 'lightning', 'people', 'city', 'flowers', 'animals', 'car', 'road']
-		return { tempo, type, tags }
+		return { selectedRecord, tempo, type, tags }
 	}
 };
 </script>

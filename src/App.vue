@@ -6,8 +6,13 @@ icons-set
 
 <script>
 import IconsSet from "~/components/Icons/IconsSet.vue"
+import Store from "~/store/store.js"
 export default {
-	components: { IconsSet }
+	components: { IconsSet },
+	setup() {
+		const { fetchRecords } = Store()
+		fetchRecords()
+	}
 };
 </script>
 
