@@ -4,7 +4,7 @@
 	area-content
 		router-view
 	area-tool-bar
-	area-status-bar
+	//- area-status-bar
 </template>
 
 

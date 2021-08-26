@@ -4,12 +4,17 @@ template(v-else-if="isLoading") Loading...
 .media-grid(v-else :style="gridStyle")
 	template(v-for="(item, id) in fetchedItems")
 		.media-item(
+			
 			@click.meta="selectItem(id)"
 			@click.alt="rejectItem(id)")
 			icon(v-if="item.rejected" name="reject")
 			icon(v-if="item.selected" name="check")
 			.cover(:class="{selected:item.selected, rejected:item.rejected}")
-				img(:src="item.image" loading="lazy")
+				img(
+					@mouseover="preloadSlideshow(id)"
+					@mousemove="startSlideshow(id, $event)"
+					@mouseleave="stopSlideshow(id, $event)"
+					:src="item.image" loading="lazy")
 //- .view-control
 	.filters Filters:
 		label.showRejected.checker(title="Show all videos of this author")
@@ -81,14 +86,37 @@ export default {
 			}
 		}
 
+
 		const activeItem = id => state.fetchedItems[id].selected = !state.fetchedItems[id].selected
 		const selectItem = id => state.fetchedItems[id].selected = !state.fetchedItems[id].selected
 		const rejectItem = id => state.fetchedItems[id].rejected = !state.fetchedItems[id].rejected
 		
 
+		// Slideshow (optimization needed)
+		const preloadSlideshow = id => {
+			const previews = state.fetchedItems[id].video_pictures.map(item => item.picture)
+			previews.forEach(image => {
+				let img = new Image();
+				img.src = image;
+			})
+		}
+		const startSlideshow = (id, event) => {
+			const previews = state.fetchedItems[id].video_pictures.map(item => item.picture)
+			const itemWidth = event.target.clientWidth
+			let frameWidth = Math.round(itemWidth / previews.length)
+			let mousePosition = event.layerX;
+			let imageIndex = Math.round(mousePosition/frameWidth)
+			event.target.src = previews[imageIndex]
+			// console.log()
+		}
+		const stopSlideshow = (id, event) => {
+			const preview = state.fetchedItems[id].image
+			event.target.src = preview
+		}
+
 		onMounted(() => fetchItems())
 
-		return { editor, ...toRefs(state), fetchItems, rejectItem, selectItem, gridStyle, activeItem }
+		return { editor, ...toRefs(state), fetchItems, rejectItem, selectItem, gridStyle, activeItem, preloadSlideshow, startSlideshow, stopSlideshow }
 
 	}
 };
@@ -106,6 +134,7 @@ export default {
 .media-grid
 	display: grid
 	grid-template-columns: repeat( auto-fill, minmax(var(--media-grid-cell-size), 1fr) )
+	grid-template-rows: repeat(auto-fill, 5em) 20%
 	width: 100%
 	min-height: 100%
 	gap: 1vw
@@ -137,8 +166,12 @@ export default {
 				right: 0.5em
 		.cover
 			transition: filter 0.2s
+			height: 100%
 			img
+				display: block
 				max-width: 100%
+				height: 100%
+				object-fit: cover
 			&.selected
 				position: relative
 				filter: contrast(150%)

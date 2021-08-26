@@ -1,5 +1,8 @@
 <template lang="pug">
 aside.area.area-tool-bar
+	//- .section
+		h3 Rating:
+		star-rating(v-model:rating="currentVideo.data.rating" :star-size="20" inactive-color="#444" active-color="#bda522" :show-rating="false" :padding="5")
 	.section
 		h3 Tempo:
 		g-switcher(id="tempo" :data="tempo")
@@ -9,26 +12,10 @@ aside.area.area-tool-bar
 	.section
 		h3 Tags:
 		g-checkers(:data="tags")
-	.section.buttons
+	//- .section.buttons
 		g-button(text="Back")
 		g-button(text="Next")
-		g-button(text="Reject" danger)
-	//- .section
-	//- 	h3 Rating:
-	//- 	star-rating(v-model:rating="currentVideo.data.rating" :star-size="20" inactive-color="#444" active-color="#bda522" :show-rating="false" :padding="5")
-	//- .section
-	//- 	h3 Tempo:
-	//- 	switcher(id="tempo" :options="editor.tempo" v-model="currentVideo.data.tempo")
-	//- .section.checkers(v-for="(section, key) in editor.tags")
-	//- 	h3 {{key}}:
-	//- 	label.checker.tag(v-for="tag in sortedTags(section)")
-	//- 		input(type="checkbox" :value="tag" v-model="currentVideo.data[key]")
-	//- 		.box {{ tag }}
-	//- .section.buttons
-	//- 	button.back(@click="nextVideo(-1)") Back
-	//- 	button.next(@click="nextVideo(1)") Next
-	//- 	button.reject(v-if="!currentVideo.data.rejected" @click="rejectVideo()") Reject
-	//- 	button.restore(v-else @click="rejectVideo()") Restore
+		g-button(text="Reject" danger)	
 	
 
 </template>
