@@ -4,22 +4,22 @@ header.area.area-top-bar
 		icon(name="logo")
 		span.title Explorer
 	.controls
+		icon(name="settings" @click="toggleSettings()")
 		icon(name="help" @click="toggleHelp()")
 		icon(name="fullscreen" @click="toggleFullscreen()")
-	
-//- .help help
 </template>
 
 <script>
+import useApp from "~/store/App"
 export default {
 	setup() {
-		const toggleHelp = () => {}
+		const { toggleSettings, toggleHelp } = useApp();
 		const toggleFullscreen = () => {
 			if (!document.fullscreenElement) document.documentElement.requestFullscreen();
 			else document.exitFullscreen();
 		}
 
-		return { toggleHelp, toggleFullscreen }
+		return { toggleSettings, toggleHelp, toggleFullscreen }
 	}
 };
 </script>
@@ -43,14 +43,16 @@ header.area.area-top-bar
 			font-weight: bold
 	.controls
 		margin-left: auto
-		svg
-			fill: #fff
-			width: 1.5em
-			height: 1.5em	
-.help
-	position: absolute
-	top: 0
-	left: 0
-	width: 50%
-	background: #333		
+		svg.icon
+			cursor: pointer
+			fill: #aaa
+			width: 1.2em
+			height: 1.2em	
+			&:hover
+				fill: #fff
+			&.icon-fullscreen
+				width: 1.5em
+				height: 1.5em
+			+ svg.icon
+				margin-left: 0.5em
 </style>

@@ -1,51 +1,71 @@
 <template lang="pug">
 .control.control-g-checkers
-	label.g-checker(v-for="checker in data")
-		input(type="checkbox" :value="checker")
-		.box {{ checker }}
+	label.g-checker(v-for="option in options")
+		input(type="checkbox" :checked="checked(option)" @change="update(option, $event.target.checked)")
+		.box {{ option }}
 </template>
 
 <script>
 export default {
+	emits: ['update:modelValue'],
 	props: {
-		data: Array
+		options: Array,
+		modelValue: {
+			type: Array,
+			default: []
+		}
 	},
-	setup() {}
-};
+	setup(props, context) {
+		const checked = option => props.modelValue.includes(option)
+		const update = (option, checked) => {
+			let update = [...props.modelValue]
+			if (checked) update.push(option)
+			else update.splice(update.indexOf(option), 1)
+			context.emit('update:modelValue', update)
+		}
+		return { checked, update }
+	}
+}
 </script>
 
 <style lang="stylus" scoped>
 .control.control-g-checkers
-	display: flex
-	flex-wrap: wrap
-	align-items: center
-	gap: 0.5em
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 0.5em;
+
 	label.g-checker
-		line-height: 1
-		display: block
-		cursor: pointer
-		flex: 1 0 auto
+		line-height: 1;
+		display: block;
+		cursor: pointer;
+		// flex: 1 0 auto;
+
 		input
-			height: 0
-			width: 0
-			visibility: hidden
-			display: none
+			height: 0;
+			width: 0;
+			visibility: hidden;
+			display: none;
+
 		.box
-			background: #222
-			text-align: center
-			padding: 0.5em 0.7em
-			color: #ccc
-			border-radius: 0.4em
-			letter-spacing: 0.04em
-			transition: color 0.2s, background 0.2s
-			&:hover
-				color: #fff
-				background: #444
+			background: #222;
+			text-align: center;
+			padding: 0.5em 0.7em;
+			color: #ccc;
+			border-radius: 0.4em;
+			letter-spacing: 0.04em;
+			transition: color 0.2s, background 0.2s;
+			&:hover, &:focus
+				color: #fff;
+				background: #444;
+
 		.icon
-			fill: #666
-			width: 1.5em
-			height: 1.5em
+			fill: #666;
+			width: 1.5em;
+			height: 1.5em;
+
 		input:checked + .box
-			color: #fff
-			background: var(--c-purple)
+			color: #fff;
+			background: var(--c-purple);
+
 </style>

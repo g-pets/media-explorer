@@ -1,27 +1,29 @@
 <template lang="pug">
 .control.control-g-switcher
 	.switches
-		label.switch(v-for="option in data")
-			input(type="radio" :name="`radio_group_${id}`" :checked="modelValue == option" @click="selectOption(option)")
+		label.switch(v-for="option in options")
+			input(type="radio" :name="`radio_group_${id}`" :checked="checked(option)" @click="update(option)")
 			.content
 				.name {{option}}
 </template>
 
 <script>
-	export default {
-		name: "VInputSwitcher",
-		emits: ['update:modelValue'],
-		props: {
-			modelValue: String,
-			id: String,
-			data: Array
+export default {
+	emits: ['update:modelValue'],
+	props: {
+		id: String,
+		options: Array,
+		modelValue: {
+			type: String,
+			default: ""
 		},
-		methods: {
-			selectOption(option) {
-				this.$emit('update:modelValue', option)
-			}
-		}
+	},
+	setup(props, context) {
+		const checked = option => props.modelValue === option
+		const update = (option) => context.emit('update:modelValue', option)
+		return { checked, update }
 	}
+}
 </script>
 
 

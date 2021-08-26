@@ -2,18 +2,32 @@
 icons-set
 .app-container(v-if="!fetchStatus.isLoading")
 	router-view
+
+.overlay.overlay-settings(v-if="overlays.settings")
+	h2 Settings
+	label API:
+		input(type="text" v-model="fetchUrl")
+.overlay.overlay-help(v-if="overlays.help")
+	h2 Help
+	ul
+		li Alt + Click: Reject item;
+		li Esc: Back to grid view;
+		li Enter: Go to strip view;
+		li Double Clock: Go to strip view;
 </template>
 
 <script>
 import { onBeforeMount } from "vue"
 import IconsSet from "~/components/Icons/IconsSet.vue"
 import Store from "~/store/Store.js"
+import useApp from "~/store/App"
 export default {
 	components: { IconsSet },
 	setup() {
-		const { fetchRecords, fetchStatus } = Store()
+		const { fetchRecords, fetchStatus, fetchUrl } = Store()
+		const { overlays } = useApp()
 		onBeforeMount(() => fetchRecords())
-		return { fetchStatus }
+		return { fetchStatus, overlays, fetchUrl }
 	}
 };
 </script>
@@ -26,4 +40,26 @@ export default {
 	--c-purple: #4c3273
 	--c-red: #9e2c2c
 	--c-green: #227a59
+.overlay
+	position: absolute
+	margin: auto
+	top: 0
+	left: 0
+	right: 0
+	bottom: 0
+	width: 50%
+	height: 50%
+	background: #333
+	border-radius: 0.5em
+	padding: 1em
+	z-index: 100
+	color: #fff
+	input
+		background: #222
+		border: none
+		outline: none
+		margin-left: 0.4em
+		padding: 0.5em
+		width: 100%
+		line-height: 1
 </style>

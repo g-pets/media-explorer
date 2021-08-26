@@ -1,9 +1,7 @@
 <template lang="pug">
 .content
-
 	.item-active(v-if="editor.expanded")
 		video(:src="selectedRecord.video_files[0].link" controls muted autoplay loop)
-
 	.items-list(:style="gridStyle" :class="[editor.expanded ? 'strip-view' : 'grid-view']")
 		template(v-for="(item, id) in fetchedRecords")
 			.media-item(
@@ -58,9 +56,6 @@ export default {
 				'--media-grid-cell-size': editor.cellSize + 'em'
 			}
 		})
-		
-
-		console.log(fetchedRecords.length)
 
 		// Slideshow (optimization needed)
 		const preloadSlideshow = id => {
@@ -71,7 +66,7 @@ export default {
 			})
 		}
 		const startSlideshow = (id, event) => {
-			const previews = fetchedRecords[id].video_pictures.map(item => item.picture)
+			const previews = fetchedRecords[id].screenshots
 			const itemWidth = event.target.clientWidth
 			let frameWidth = Math.round(itemWidth / previews.length)
 			let mousePosition = event.layerX;
@@ -93,15 +88,10 @@ export default {
 		const recordClick = id => {
 			selectRecord(id)
 			clicks++
-			if (clicks === 1) {
-				timer = setTimeout(() => {
-					console.log("Single")
-					clicks = 0
-				}, 200);
-			} else {
+			if (clicks === 1) timer = setTimeout(() => clicks = 0, 200);
+			else {
 				clearTimeout(timer);  
 				expandRecord(id);
-				console.log("Double")
 				clicks = 0;
 			}
         }
@@ -125,9 +115,9 @@ export default {
 			})
 		}
 
-		onMounted(() => {
-			hotKeysListner();
-		})
+		// onMounted(() => {
+		// 	hotKeysListner();
+		// })
 
 		return {
 			editor,

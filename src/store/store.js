@@ -22,8 +22,54 @@ const editor = reactive({
 	expanded: false
 })
 
+// Temp (format data)
+const formatData= (data) => {
+	const formatted = []
+	data.forEach(item => {
+		let video = {
+			id: item.id,
+			width: item.width,
+			height: item.height,
+			duration: item.duration,
+			url: item.url,
+			image: item.image,
+			author: item.user,
+			tags: [],
+			type: [],
+			rating: 0,
+			processed: false,
+			rejected: false,
+			tempo: "normal",
+			video_files: [],
+			screenshots: []
+		}
+
+		item.video_files.forEach(videoItem => {
+			video.video_files.push({
+				width: videoItem.width,
+				height: videoItem.height,
+				url: videoItem.link
+			})
+		})
+
+		video.video_files.sort((a, b) => {
+			return a.width - b.width;
+		});
+
+		item.video_pictures.forEach(screenshotItem => {
+			video.screenshots.push(screenshotItem.picture)
+		})
+		formatted.push(video)
+	});
+	let jsonData = JSON.stringify(formatted, null, "\t")
+	console.log(jsonData)
+}
+
+
+
 export default function useStore() {
 
+	
 	const fetchRecords = async () => {
 		console.group("⬇️ Fetching Items from API...")
 		try {
@@ -36,6 +82,12 @@ export default function useStore() {
 			data.forEach(item => {
 				mapped[item.id] = item
 			});
+
+
+			// formatData(data)
+
+			
+
 			records.fetchedRecords = mapped;
 		} catch(error) {
 			console.error(`‼️ Fetched: ${error}`)
