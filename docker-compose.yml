@@ -6,8 +6,8 @@ services:
         build: .
         image: media-panel:1.0
         ports:
-            - ${PANEL_PORT}:5000 #HTTP
-            - ${PANEL_PREVIEW_PORT}:5001
+            - 80:5000 # Build
+            - 81:5001 #Dev
         environment:
             HOST: 0.0.0.0
         volumes:

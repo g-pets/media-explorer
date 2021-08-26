@@ -1,7 +1,7 @@
 <template lang="pug">
-.control.control-switcher
+.control.control-g-switcher
 	.switches
-		label.switch(v-for="option in options")
+		label.switch(v-for="option in data")
 			input(type="radio" :name="`radio_group_${id}`" :checked="modelValue == option" @click="selectOption(option)")
 			.content
 				.name {{option}}
@@ -14,7 +14,7 @@
 		props: {
 			modelValue: String,
 			id: String,
-			options: Array
+			data: Array
 		},
 		methods: {
 			selectOption(option) {
@@ -26,10 +26,8 @@
 
 
 <style lang="stylus" scoped>
-// V-Input-Switcher
-.control.control-switcher
+.control.control-g-switcher
 	line-height: 1
-	margin-top: 0.5em
 	.switches
 		display: flex
 		border-radius: 0.4em

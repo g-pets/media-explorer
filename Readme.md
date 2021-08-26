@@ -23,3 +23,8 @@
 3. Remove field from all docs: `db.videos.updateMany({},{"$unset":{theme:""}})`
 4. Dublicate collection: `db.videos.aggregate([{ $match: {} }, { $out: "videos2" }])`
 5. Remove dublicates by filed, with index creation: `db.videos.ensureIndex({id: 1}, {unique: true, dropDups: true}) `
+
+
+## Hotkeys
+* Alt + Click: Reject
+* Command + Click: Select
