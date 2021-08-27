@@ -20,7 +20,8 @@ const editor = reactive({
 	showAuthor: false,
 	showRejected: false,
 	showProcessed: false,
-	expanded: false
+	expanded: false,
+	query: ""
 })
 
 // Temp (format data)
@@ -114,13 +115,41 @@ export default function useStore() {
 		}
 	}
 
+	const filteredRecords = computed(() => {
+		try {
+			if(!editor.query) return records.fetchedRecords
+			let q = String(editor.query.toLowerCase().trim())
+			const result = records.fetchedRecords.filter(item => {
+				let data = [...item.tags, ...item.keywords, ...item.type, item.tempo, item.rating]
+				data = data.join(" ")
+				if(data.includes(q)) return true
+			})
+			return result
+		} catch(error) {
+			console.log(error)
+		}
+	})
+
 	
 
 
-	const selectRecord = id => records.selectedRecord = records.fetchedRecords[id]
-	const rejectRecord = (id = records.selectedRecord.id) => records.fetchedRecords[id].rejected = !records.fetchedRecords[id].rejected
-	const checkRecord = id => records.fetchedRecords[id].checked = !records.fetchedRecords[id].checked
+	const selectRecord = id => records.selectedRecord = filteredRecords.value.find(record => record.id == id)
+	
+	const selectedRecordIndex = computed(() => filteredRecords.value.findIndex(record => record.id == records.selectedRecord.id))
+	
+	const rejectRecord = (id = records.selectedRecord.id) => {
+		let record = filteredRecords.value.find(record => record.id == id)
+		record.rejected = !record.rejected
+	}
 
+	const nextRecord = n => {
+		let nextIndex = selectedRecordIndex.value + n
+		records.selectedRecord = filteredRecords.value[nextIndex]
+	}
+
+	
+	// const checkRecord = id => records.fetchedRecords[id].checked = !records.fetchedRecords[id].checked
+	const setRating = rating => records.selectedRecord.rating = rating
 	const expandRecord = () => editor.expanded = true
 	const collapseRecord = () => editor.expanded = false
 
@@ -128,11 +157,14 @@ export default function useStore() {
 		...toRefs(store),
 		...toRefs(records),
 		fetchRecords,
+		filteredRecords,
+		selectedRecordIndex,
 		selectRecord,
 		rejectRecord,
-		checkRecord,
 		expandRecord,
 		collapseRecord,
+		nextRecord,
+		setRating,
 		editor
 	}
 

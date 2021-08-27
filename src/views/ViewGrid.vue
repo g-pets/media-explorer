@@ -2,20 +2,19 @@
 .media-container
 	
 	.info-panel(v-if="selectedRecord")
-		.counter 1 of {{filtered.length}}
-		g-search(v-model="query")
+		.counter {{selectedRecordIndex + 1}} of {{filteredRecords.length}}
+		g-search(v-model="editor.query")
 	
 	.item-active(v-if="editor.expanded")
 		video(:src="selectedRecord.video_files[1].url" controls muted autoplay loop)
 	
 	.items-list(:style="gridStyle" :class="[editor.expanded ? 'strip-view' : 'grid-view']")
 		media-item(
-			v-for="(item, id) in filtered"
+			v-for="(item, index) in filteredRecords"
 			:item="item"
-			:class="{selected: selectedRecord.id == id}"
-			@click="recordClick(id)"
-			@click.meta="checkRecord(id)"
-			@click.alt="rejectRecord(id)")
+			:class="{selected: selectedRecord.id == item.id}"
+			@click="recordClick(item.id)"
+			@click.alt="rejectRecord(item.id)")
 	
 	.view-control
 		//- .filters Filters:
@@ -46,28 +45,16 @@ export default {
 			fetchedRecords,
 			selectRecord,
 			selectedRecord,
+			selectedRecordIndex,
 			checkRecord,
 			rejectRecord,
 			expandRecord,
 			collapseRecord,
+			nextRecord,
+			setRating,
+			filteredRecords,
 			editor } = Store()
 		
-		const query = ref(null)
-		
-		const filtered = computed(() => {
-			try {
-				if(!query.value) return fetchedRecords.value
-				let q = String(query.value.toLowerCase().trim())
-				const result = fetchedRecords.value.filter(item => {
-					let data = [...item.tags, ...item.keywords, ...item.type, item.tempo]
-					data = data.join(" ")
-					if(data.includes(q)) return true
-				})
-				return result
-			} catch(error) {
-				console.log(error)
-			}
-		})
 
 		const gridStyle = computed(() => {
 			return {
@@ -90,16 +77,18 @@ export default {
         }
 
 
+
 		const hotKeysListner = () => {
 			window.addEventListener('keydown', event => {
 				// event.preventDefault();
 				if (event.key === "Escape") collapseRecord()
 				if (event.key === "Enter") expandRecord()
 				if (event.key === "p" || event.key === "Backspace") rejectRecord();
-				if (event.key === "ArrowLeft") nextVideo(-1);
-				if (event.key === "ArrowRight") nextVideo(1);
-				if (event.key === "ArrowUp") nextVideo(-10);
-				if (event.key === "ArrowDown") nextVideo(10);
+				if (event.key === "ArrowLeft") nextRecord(-1);
+				if (event.key === "ArrowRight") nextRecord(1);
+				// if (event.key === "ArrowUp") nextRecord(-10);
+				// if (event.key === "ArrowDown") nextRecord(10);
+				if (event.key === "0") setRating(0)
 				if (event.key === "1") setRating(1)
 				if (event.key === "2") setRating(2)
 				if (event.key === "3") setRating(3)
@@ -107,8 +96,6 @@ export default {
 				if (event.key === "5") setRating(5)
 			})
 		}
-
-		
 
 		onMounted(() => {
 			hotKeysListner();
@@ -120,13 +107,12 @@ export default {
 			selectRecord,
 			checkRecord,
 			rejectRecord,
-			
+			filteredRecords,
 			recordClick,
 			gridStyle,
-			query,
-			filtered,
 			selectRecord,
-			selectedRecord
+			selectedRecord,
+			selectedRecordIndex
 		}
 	}
 };
