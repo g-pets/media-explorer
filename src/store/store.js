@@ -1,7 +1,8 @@
 import { reactive, toRefs } from "vue"
 
 const store = reactive({
-	fetchUrl: "/databaseFullShort.json",
+	fetchUrl: "/localShort.json",
+	// fetchUrl: "/databaseFullShort.json",
 	fetchStatus: {
 		isLoading: true,
 		isError: false,
@@ -28,12 +29,14 @@ const formatData= (data) => {
 	data.forEach(item => {
 		let video = {
 			id: item.id,
+			title: "",
 			width: item.width,
 			height: item.height,
 			duration: item.duration,
 			url: item.url,
 			image: item.image,
 			author: item.user,
+			keywords: [],
 			tags: [],
 			type: [],
 			rating: 0,
@@ -44,6 +47,17 @@ const formatData= (data) => {
 			screenshots: []
 		}
 
+		// Generate Title
+		video.title = item.url.split("/video/").pop().replace(`-${item.id}/`, '').replaceAll('-', ' ')
+
+		// Generate Keywords
+		let keywords = video.title.split(" ")
+		video.keywords = keywords.filter(keyword => keyword.length >= 4);
+
+		// UpperCase title
+		video.title = video.title.charAt(0).toUpperCase() + video.title.slice(1);
+		
+		// Generate Video Files
 		item.video_files.forEach(videoItem => {
 			video.video_files.push({
 				width: videoItem.width,
@@ -51,11 +65,13 @@ const formatData= (data) => {
 				url: videoItem.link
 			})
 		})
-
 		video.video_files.sort((a, b) => {
 			return a.width - b.width;
 		});
 
+		
+		
+		// Generate Screenshots
 		item.video_pictures.forEach(screenshotItem => {
 			video.screenshots.push(screenshotItem.picture)
 		})
@@ -83,10 +99,7 @@ export default function useStore() {
 				mapped[item.id] = item
 			});
 
-
 			// formatData(data)
-
-			
 
 			records.fetchedRecords = mapped;
 		} catch(error) {

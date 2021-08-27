@@ -1,7 +1,13 @@
 <template lang="pug">
-.content
+.media-container
+	.info-panel
+		.title(v-if="selectedRecord")
+			span.name "{{selectedRecord.title}}" 
+			span.author by <i>{{selectedRecord.author.name}}</i>
+		.counter 1 of 20
 	.item-active(v-if="editor.expanded")
-		video(:src="selectedRecord.video_files[0].link" controls muted autoplay loop)
+		video(:src="selectedRecord.video_files[1].url" controls muted autoplay loop)
+	
 	.items-list(:style="gridStyle" :class="[editor.expanded ? 'strip-view' : 'grid-view']")
 		template(v-for="(item, id) in fetchedRecords")
 			.media-item(
@@ -142,10 +148,99 @@ export default {
 </script>
 
 <style lang="stylus">
+.media-container
+	display: flex
+	flex-direction: column
+	min-height: 100%
 
-.item-active
-	video
-		width: 100%
+	.info-panel
+		background: #1e1e21
+		display: flex
+		font-size: 0.8em
+		justify-content: space-between
+		align-items: center
+		line-height: 1
+		padding: 0.5em 1vw
+		position: sticky
+		top: 0
+		z-index: 10
+		.name
+			max-width: 70%
+			white-space: nowrap
+			overflow: hidden
+			text-overflow: ellipsis
+	
+	.item-active
+		margin: auto
+		width: 90%
+		video
+			width: 100%
+	
+	.items-list
+		.media-item
+			cursor: pointer
+			position: relative
+			overflow: hidden
+			transition: 0.25s transform, 0.25s box-shadow
+			&:hover
+				box-shadow: 0 0 0 0.15em var(--c-light-blue)
+				transform: scale(1.2)
+				z-index: 2
+			svg.icon
+				width: 1.5em
+				height: 1.5em
+				position: absolute
+				z-index: 1
+				&.icon-reject
+					fill: red
+					top: 0.5em
+					left: 0.5em
+				&.icon-check
+					fill: #fff
+					top: 0.5em
+					right: 0.5em
+			.cover
+				transition: filter 0.2s
+				height: 100%
+				img
+					display: block
+					max-width: 100%
+					height: 100%
+					object-fit: cover
+				&.selected
+					position: relative
+					filter: contrast(150%)
+					&:after
+						content: ""
+						position: absolute
+						top: 0
+						left: 0
+						width: 100%
+						height: 100%
+						background: #48a1ff
+						opacity: 0.5
+				&.rejected
+					filter: saturate(0%) contrast(70%) brightness(40%)
+		&.strip-view
+			display: flex
+			width: 100%
+			gap: 1vw
+			overflow scroll
+			background: #222
+			padding: 1em 0.5em
+			.media-item
+				flex: 1 0 auto
+				width: 7em
+		&.grid-view
+			display: grid
+			grid-template-columns: repeat( auto-fill, minmax(var(--media-grid-cell-size), 1fr) )
+			grid-template-rows: repeat(auto-fill, 5em) 20%
+			width: 100%
+			min-height: 100%
+			gap: 1vw
+			background: #111
+			padding: 1vw
+
 .view-control
 	font-size: 0.8em
 	width: 100%
@@ -154,65 +249,5 @@ export default {
 	background: #222
 	z-index: 10
 	box-shadow: 0 -0.1em 0.4em rgba(#000,0.2)
-
-.items-list
-	.media-item
-		cursor: pointer
-		position: relative
-		overflow: hidden
-		// border-radius: 0.3em
-		transition: 0.25s box-shadow
-		&:hover
-			transition: 0s box-shadow
-			box-shadow: 0 0 0 0.15em var(--c-light-blue)
-			// transform: scale(1.2)
-			// z-index: 2
-		svg.icon
-			width: 1.5em
-			height: 1.5em
-			position: absolute
-			z-index: 1
-			&.icon-reject
-				fill: red
-				top: 0.5em
-				left: 0.5em
-			&.icon-check
-				fill: #fff
-				top: 0.5em
-				right: 0.5em
-		.cover
-			transition: filter 0.2s
-			height: 100%
-			img
-				display: block
-				max-width: 100%
-				height: 100%
-				object-fit: cover
-			&.selected
-				position: relative
-				filter: contrast(150%)
-				&:after
-					content: ""
-					position: absolute
-					top: 0
-					left: 0
-					width: 100%
-					height: 100%
-					background: #48a1ff
-					opacity: 0.5
-			&.rejected
-				filter: saturate(0%) contrast(70%) brightness(40%)
-	&.strip-view
-		display: flex
-		width: 100%
-	&.grid-view
-		display: grid
-		grid-template-columns: repeat( auto-fill, minmax(var(--media-grid-cell-size), 1fr) )
-		grid-template-rows: repeat(auto-fill, 5em) 20%
-		width: 100%
-		min-height: 100%
-		gap: 1vw
-		background: #111
-		padding: 1vw
 
 </style>

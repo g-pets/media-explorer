@@ -1,29 +1,44 @@
 <template lang="pug">
 .control.control-g-checkers
-	label.g-checker(v-for="option in options")
+	input.query(v-if="filter" type="search" v-model="query" placeholder="filter...")
+	label.g-checker(v-for="option in filtered")
 		input(type="checkbox" :checked="checked(option)" @change="update(option, $event.target.checked)")
 		.box {{ option }}
 </template>
 
 <script>
+import { ref, computed } from "vue"
 export default {
 	emits: ['update:modelValue'],
 	props: {
 		options: Array,
+		filter: Boolean,
 		modelValue: {
 			type: Array,
 			default: []
 		}
 	},
 	setup(props, context) {
+		const query = ref(null)
 		const checked = option => props.modelValue.includes(option)
 		const update = (option, checked) => {
 			let update = [...props.modelValue]
 			if (checked) update.push(option)
 			else update.splice(update.indexOf(option), 1)
 			context.emit('update:modelValue', update)
+			query.value = null
 		}
-		return { checked, update }
+		const filtered = computed(() => {
+			try {
+				if(!query.value) return props.options.sort()
+				let q = String(query.value.toLowerCase().trim())
+				const result = props.options.filter(item => item.toLowerCase().includes(q))
+				return result
+			} catch(error) {
+				console.log(error)
+			}
+		})
+		return { checked, update, query, filtered }
 	}
 }
 </script>
@@ -35,11 +50,19 @@ export default {
 	align-items: center;
 	gap: 0.5em;
 
+	input.query
+		background: #222
+		border: none
+		width: 100%
+		// margin-bottom: 1em
+		padding: 0.5em 1em
+		border-radius: 0.4em
+
 	label.g-checker
 		line-height: 1;
 		display: block;
 		cursor: pointer;
-		// flex: 1 0 auto;
+		flex: 1 0 auto
 
 		input
 			height: 0;
