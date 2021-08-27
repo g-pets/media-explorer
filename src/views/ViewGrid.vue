@@ -1,10 +1,10 @@
 <template lang="pug">
 .media-container
-	.info-panel
-		.title(v-if="selectedRecord")
+	.info-panel(v-if="selectedRecord")
+		.title
 			span.name "{{selectedRecord.title}}" 
 			span.author by <i>{{selectedRecord.author.name}}</i>
-		.counter 1 of 20
+		.counter 1 of {{recordsCount}}
 	.item-active(v-if="editor.expanded")
 		video(:src="selectedRecord.video_files[1].url" controls muted autoplay loop)
 	
@@ -53,6 +53,7 @@ export default {
 			rejectRecord,
 			expandRecord,
 			collapseRecord,
+			recordsCount,
 			editor } = Store()
 
 
@@ -136,6 +137,7 @@ export default {
 			preloadSlideshow,
 			startSlideshow,
 			stopSlideshow,
+			recordsCount,
 			gridStyle
 			}
 
@@ -164,8 +166,9 @@ export default {
 		position: sticky
 		top: 0
 		z-index: 10
-		.name
-			max-width: 70%
+		color: #aaa
+		.title
+			width: 70%
 			white-space: nowrap
 			overflow: hidden
 			text-overflow: ellipsis

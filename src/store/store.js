@@ -1,4 +1,4 @@
-import { reactive, toRefs } from "vue"
+import { reactive, toRefs, computed } from "vue"
 
 const store = reactive({
 	fetchUrl: "/localShort.json",
@@ -113,6 +113,8 @@ export default function useStore() {
 	}
 
 
+	const recordsCount = computed(() => Object.keys(records.fetchedRecords).length)
+
 	const selectRecord = id => records.selectedRecord = records.fetchedRecords[id]
 	const rejectRecord = id => records.fetchedRecords[id].rejected = !records.fetchedRecords[id].rejected
 	const checkRecord = id => records.fetchedRecords[id].checked = !records.fetchedRecords[id].checked
@@ -129,6 +131,7 @@ export default function useStore() {
 		checkRecord,
 		expandRecord,
 		collapseRecord,
+		recordsCount,
 		editor
 	}
 
