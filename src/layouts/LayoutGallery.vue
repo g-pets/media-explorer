@@ -29,28 +29,28 @@ export default {
 	grid-template-rows: max-content auto max-content
 	position: relative
 	header.area.area-top-bar
-		background: #242528
+		background: var(--c-top-bar-bg)
 		grid-column: 1/-1
 		box-shadow: 0 0.1em 0.4em rgba(#000,0.2)
 		position: sticky
 		top: 0
 		z-index: 3
 	main.area.area-content
-		background: #111
+		background: var(--c-content-bg)
 		z-index: 1
 		max-height: 100%
 		overflow-y: scroll
 		overflow-x: hidden
 		// padding: 1vw
 	aside.area.area-tool-bar
-		background: #1a1b1d
+		background: var(--c-tool-bar-bg)
 		box-shadow: 0.1em 0 0.4em rgba(#000,0.2)
 		z-index: 2
 		max-height: 100%
 		overflow-y: scroll
 		overflow-x: hidden
 	footer.area.area-status-bar
-		background: #242528
+		background: var(--c-status-bar-bg)
 		box-shadow: 0 -0.1em 0.4em rgba(#000,0.2)
 		grid-column: 1 / -1
 		width: 100%

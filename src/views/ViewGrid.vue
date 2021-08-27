@@ -179,7 +179,7 @@ export default {
 	min-height: 100%
 
 	.info-panel
-		background: #1e1e21
+		background: var(--c-content-panel-bg)
 		display: flex
 		font-size: 0.8em
 		justify-content: space-between
@@ -190,6 +190,7 @@ export default {
 		top: 0
 		z-index: 10
 		color: #aaa
+		box-shadow: 0 0.1em 0.4em rgba(#000,0.2)
 		input
 			border: none
 			background: #333
@@ -250,7 +251,7 @@ export default {
 			width: 100%
 			gap: 1vw
 			overflow scroll
-			background: #222
+			// background: #222
 			padding: 1em 0.5em
 			.media-item
 				flex: 1 0 auto
@@ -262,7 +263,6 @@ export default {
 			width: 100%
 			min-height: 100%
 			gap: 1vw
-			background: #111
 			padding: 1vw
 
 .view-control
@@ -270,8 +270,9 @@ export default {
 	width: 100%
 	bottom: 0
 	position: sticky
-	background: #222
+	background: var(--c-content-panel-bg)
 	z-index: 10
+	padding: 0.5em 1vw
 	box-shadow: 0 -0.1em 0.4em rgba(#000,0.2)
 
 </style>

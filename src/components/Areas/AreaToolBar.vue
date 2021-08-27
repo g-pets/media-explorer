@@ -12,6 +12,9 @@ aside.area.area-tool-bar(v-if="selectedRecord")
 	.sections
 		section.section-preview
 			img(:src="selectedRecord.image")
+		section.section-type
+			h3 Rating:
+			g-rating(:max="5" v-model="selectedRecord.rating")
 		section.section-tempo
 			h3 Tempo:
 			g-switcher(id="tempo" :options="tempo" v-model="selectedRecord.tempo")
@@ -26,11 +29,11 @@ aside.area.area-tool-bar(v-if="selectedRecord")
 <script>
 import useStore from "~/store/Store.js"
 import useApp from "~/store/App.js"
+import gRating from "~/components/Controls/gRating.vue"
 import gSwitcher from "~/components/Controls/gSwitcher.vue"
 import gCheckers from "~/components/Controls/gCheckers.vue"
-import gButton from "~/components/Controls/gButton.vue"
 export default {
-	components: { gSwitcher, gCheckers, gButton },
+	components: { gRating, gSwitcher, gCheckers },
 	setup() {
 		const { selectedRecord } = useStore();
 		const { closeToolbarSections, openToolbarSections, soloToolbarSections } = useApp();
