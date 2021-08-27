@@ -1,6 +1,6 @@
 <template lang="pug">
 .control.control-g-checkers
-	input.query(v-if="filter" type="search" v-model="query" placeholder="filter...")
+	g-search(v-if="filter" v-model="query" icon="filter" placeholder="Filter..." fullwidth)
 	label.g-checker(v-for="option in filtered")
 		input(type="checkbox" :checked="checked(option)" @change="update(option, $event.target.checked)")
 		.box {{ option }}
@@ -8,7 +8,9 @@
 
 <script>
 import { ref, computed } from "vue"
+import gSearch from "~/components/Controls/gSearch.vue"
 export default {
+	components: { gSearch },
 	emits: ['update:modelValue'],
 	props: {
 		options: Array,
@@ -49,14 +51,6 @@ export default {
 	flex-wrap: wrap;
 	align-items: center;
 	gap: 0.5em;
-
-	input.query
-		background: #222
-		border: none
-		width: 100%
-		// margin-bottom: 1em
-		padding: 0.5em 1em
-		border-radius: 0.4em
 
 	label.g-checker
 		line-height: 1;

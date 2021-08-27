@@ -1,15 +1,16 @@
 <template lang="pug">
 .media-container
+	//- p(v-for="(item, index) in filtered") {{item}}
+
+	
 	.info-panel(v-if="selectedRecord")
-		.title
-			span.name "{{selectedRecord.title}}" 
-			span.author by <i>{{selectedRecord.author.name}}</i>
-		.counter 1 of {{recordsCount}}
+		.counter 1 of {{filtered.length}}
+		g-search(v-model="query")
 	.item-active(v-if="editor.expanded")
 		video(:src="selectedRecord.video_files[1].url" controls muted autoplay loop)
 	
 	.items-list(:style="gridStyle" :class="[editor.expanded ? 'strip-view' : 'grid-view']")
-		template(v-for="(item, id) in fetchedRecords")
+		template(v-for="(item, id) in filtered")
 			.media-item(
 				@click="recordClick(id)"
 				@click.meta="checkRecord(id)"
@@ -18,32 +19,35 @@
 				icon(v-if="item.selected" name="check")
 				.cover(:class="{selected:item.selected, rejected:item.rejected}")
 					//- img(
-					//- 	@mouseover="preloadSlideshow(id)"
-					//- 	@mousemove="startSlideshow(id, $event)"
-					//- 	@mouseleave="stopSlideshow(id, $event)"
-					//- 	:src="item.image" loading="lazy")
+						@mouseover="preloadSlideshow(id)"
+						@mousemove="startSlideshow(id, $event)"
+						@mouseleave="stopSlideshow(id, $event)"
+						:src="item.image" loading="lazy")
 					img(:src="item.image" loading="lazy")
 	
-//- .view-control
-	.filters Filters:
-		label.showRejected.checker(title="Show all videos of this author")
-			//- input(type="checkbox" v-model="editor.showAuthor")
-			icon(name="author")
-		label.showRejected.checker(title="Show rejected videos")
-			//- input(type="checkbox" v-model="editor.showRejected")
-			icon(name="show-rejected")
-		label.showProcessed.checker(title="Show processed videos")
-			//- input(type="checkbox" v-model="editor.showProcessed")
-			icon(name="show-processed")
-	input(type="range" min=1 max=20 step=1 v-model="editor.cellSize")
-			
+	.view-control
+		//- .filters Filters:
+			label.showRejected.checker(title="Show all videos of this author")
+				//- input(type="checkbox" v-model="editor.showAuthor")
+				icon(name="author")
+			label.showRejected.checker(title="Show rejected videos")
+				//- input(type="checkbox" v-model="editor.showRejected")
+				icon(name="show-rejected")
+			label.showProcessed.checker(title="Show processed videos")
+				//- input(type="checkbox" v-model="editor.showProcessed")
+				icon(name="show-processed")
+		g-range(:min="1" :max="20" v-model="editor.cellSize" :icons="['small-cell', 'large-cell']")
+				
 		
 </template>
 
 <script>
-import { computed, onMounted } from "vue"
+import { ref, computed, onMounted } from "vue"
 import Store from "~/store/Store.js"
+import gSearch from "~/components/Controls/gSearch.vue"
+import gRange from "~/components/Controls/gRange.vue"
 export default {
+	components: { gSearch, gRange },
 	setup() {
 		const {
 			fetchedRecords,
@@ -53,10 +57,28 @@ export default {
 			rejectRecord,
 			expandRecord,
 			collapseRecord,
-			recordsCount,
 			editor } = Store()
+		
+		const query = ref(null)
 
+		const filtered = computed(() => {
+			try {
+				if(!query.value) return fetchedRecords.value
+				let q = String(query.value.toLowerCase().trim())
+				const result = fetchedRecords.value.filter(item => {
+					let data = [...item.tags, ...item.keywords, ...item.type, item.tempo]
+					data = data.join(" ")
+					if(data.includes(q)) return true
+				})
+				return result
+			} catch(error) {
+				console.log(error)
+			}
+		})
 
+		
+
+		
 
 		const gridStyle = computed(() => {
 			return {
@@ -137,8 +159,9 @@ export default {
 			preloadSlideshow,
 			startSlideshow,
 			stopSlideshow,
-			recordsCount,
-			gridStyle
+			gridStyle,
+			query,
+			filtered
 			}
 
 		// return {
@@ -167,11 +190,9 @@ export default {
 		top: 0
 		z-index: 10
 		color: #aaa
-		.title
-			width: 70%
-			white-space: nowrap
-			overflow: hidden
-			text-overflow: ellipsis
+		input
+			border: none
+			background: #333
 	
 	.item-active
 		margin: auto
@@ -184,10 +205,10 @@ export default {
 			cursor: pointer
 			position: relative
 			overflow: hidden
-			transition: 0.25s transform, 0.25s box-shadow
+			// transition: 0.25s transform, 0.25s box-shadow
 			&:hover
 				box-shadow: 0 0 0 0.15em var(--c-light-blue)
-				transform: scale(1.2)
+				// transform: scale(1.2)
 				z-index: 2
 			svg.icon
 				width: 1.5em

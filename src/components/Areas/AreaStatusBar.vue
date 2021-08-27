@@ -1,6 +1,6 @@
 <template lang="pug">
 footer.area.area-status-bar
-	.build Build: v.1.0.0
+	.build v.1.0.0
 	.status
 		.status-network Network
 			.indicator
@@ -30,9 +30,9 @@ footer.area.area-status-bar
 			margin-right: 1em
 		.indicator
 			display: inline-block
-			width: 0.8em
-			height: 0.8em
-			background: #28d228
+			width: 0.7em
+			height: 0.7em
+			background: #0c8f0c
 			border-radius: 50%
-			margin-left: 0.4em
+			margin-left: 0.5em
 </style>

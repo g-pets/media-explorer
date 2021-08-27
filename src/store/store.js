@@ -94,14 +94,14 @@ export default function useStore() {
 			let parsed = await response.json();
 			let data = parsed
 			console.log(`· Fetched ${data.length} items.`);
-			const mapped = {}
-			data.forEach(item => {
-				mapped[item.id] = item
-			});
+			// const mapped = {}
+			// data.forEach(item => {
+			// 	mapped[item.id] = item
+			// });
 
 			// formatData(data)
 
-			records.fetchedRecords = mapped;
+			records.fetchedRecords = data;
 		} catch(error) {
 			console.error(`‼️ Fetched: ${error}`)
 			store.fetchStatus.isError = true
@@ -113,7 +113,6 @@ export default function useStore() {
 	}
 
 
-	const recordsCount = computed(() => Object.keys(records.fetchedRecords).length)
 
 	const selectRecord = id => records.selectedRecord = records.fetchedRecords[id]
 	const rejectRecord = id => records.fetchedRecords[id].rejected = !records.fetchedRecords[id].rejected
@@ -131,7 +130,6 @@ export default function useStore() {
 		checkRecord,
 		expandRecord,
 		collapseRecord,
-		recordsCount,
 		editor
 	}
 

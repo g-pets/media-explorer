@@ -17,9 +17,17 @@ const appSettings = reactive({
 export default function useApp() {
 	const toggleSettings = () => appSettings.overlays.settings = !appSettings.overlays.settings;
 	const toggleHelp = () => appSettings.overlays.help = !appSettings.overlays.help;
+
+	const closeToolbarSections = () => console.log("close")
+	const openToolbarSections = () => console.log("open")
+	const soloToolbarSections = () => console.log("solo")
+
 	return {
 		...toRefs(appSettings),
 		toggleSettings,
-		toggleHelp
+		toggleHelp,
+		closeToolbarSections,
+		openToolbarSections,
+		soloToolbarSections
 	}
 }

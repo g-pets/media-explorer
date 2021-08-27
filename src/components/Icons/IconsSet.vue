@@ -46,7 +46,42 @@
 			<symbol id="icon_help" viewBox="0 0 24 24">
 				<path d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"/>
 			</symbol>
+
+			<!-- search -->
+			<symbol id="icon_search" viewBox="0 0 24 24">
+				<path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+			</symbol>
+
+			<!-- filter -->
+			<symbol id="icon_filter" viewBox="0 0 24 24">
+				<path d="M4.25,5.61C6.27,8.2,10,13,10,13v6c0,0.55,0.45,1,1,1h2c0.55,0,1-0.45,1-1v-6c0,0,3.72-4.8,5.74-7.39 C20.25,4.95,19.78,4,18.95,4H5.04C4.21,4,3.74,4.95,4.25,5.61z"/>
+			</symbol>
+
+			<!-- Close Toolbar Sections -->
+			<symbol id="icon_sections-close" viewBox="0 0 24 24">
+				<path d="M2 6a1 1 0 011-1h18a1 1 0 110 2H3a1 1 0 01-1-1zM2 10a1 1 0 011-1h18a1 1 0 110 2H3a1 1 0 01-1-1zM2 14a1 1 0 011-1h18a1 1 0 110 2H3a1 1 0 01-1-1zM2 18a1 1 0 011-1h18a1 1 0 110 2H3a1 1 0 01-1-1z"/>
+			</symbol>
+
+			<!-- Open Toolbar Sections -->
+			<symbol id="icon_sections-open" viewBox="0 0 24 24">
+				<path d="M2 7c0-1.1.9-2 2-2h16a2 2 0 012 2v2a2 2 0 01-2 2H4a2 2 0 01-2-2V7zM2 15c0-1.1.9-2 2-2h16a2 2 0 012 2v2a2 2 0 01-2 2H4a2 2 0 01-2-2v-2z"/>
+			</symbol>
+
+			<!-- Solo Toolbar Sections -->
+			<symbol id="icon_sections-solo" viewBox="0 0 24 24">
+				<path d="M2 6a1 1 0 011-1h18a1 1 0 110 2H3a1 1 0 01-1-1zM2 11c0-1.1.9-2 2-2h16a2 2 0 012 2v2a2 2 0 01-2 2H4a2 2 0 01-2-2v-2zM2 18a1 1 0 011-1h18a1 1 0 110 2H3a1 1 0 01-1-1z"/>
+			</symbol>
+
+
+			<!-- Small Cell -->
+			<symbol id="icon_small-cell" viewBox="0 0 24 24">
+				<path d="M3 9h4V5H3v4zm0 5h4v-4H3v4zm5 0h4v-4H8v4zm5 0h4v-4h-4v4zM8 9h4V5H8v4zm5-4v4h4V5h-4zm5 9h4v-4h-4v4zM3 19h4v-4H3v4zm5 0h4v-4H8v4zm5 0h4v-4h-4v4zm5 0h4v-4h-4v4zm0-14v4h4V5h-4z"/>
+			</symbol>
 			
+			<!-- Large Cell -->
+			<symbol id="icon_large-cell" viewBox="0 0 24 24">
+				<path d="M14.67,5v6.5H9.33V5H14.67z M15.67,11.5H21V5h-5.33V11.5z M14.67,19v-6.5H9.33V19H14.67z M15.67,12.5V19H21v-6.5H15.67z M8.33,12.5H3V19h5.33V12.5z M8.33,11.5V5H3v6.5H8.33z"/>
+			</symbol>
 		</defs>
 	</svg>
 </template>

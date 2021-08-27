@@ -1,38 +1,49 @@
 <template lang="pug">
 aside.area.area-tool-bar(v-if="selectedRecord")
-	//- .section
-		h3 Rating:
-		star-rating(v-model:rating="currentVideo.data.rating" :star-size="20" inactive-color="#444" active-color="#bda522" :show-rating="false" :padding="5")
-	.section
-		h3 Tempo:
-		g-switcher(id="tempo" :options="tempo" v-model="selectedRecord.tempo")
-	.section
-		h3 Type:
-		g-checkers(:options="type" v-model="selectedRecord.type")
-	.section
-		h3 Tags:
-		g-checkers(:options="tags" v-model="selectedRecord.tags" filter)
-	//- .section.buttons
-		g-button(text="Back")
-		g-button(text="Next")
-		g-button(text="Reject" danger)	
 	
-
+	.options
+		.option(@click="closeToolbarSections()")
+			icon(name="sections-close")
+		.option(@click="openToolbarSections()")
+			icon(name="sections-open")
+		.option(@click="soloToolbarSections()")
+			icon(name="sections-solo")
+	
+	.sections
+		section.section-preview
+			img(:src="selectedRecord.image")
+		section.section-tempo
+			h3 Tempo:
+			g-switcher(id="tempo" :options="tempo" v-model="selectedRecord.tempo")
+		section.section-type
+			h3 Type:
+			g-checkers(:options="type" v-model="selectedRecord.type")
+		section.section-tags
+			h3 Tags:
+			g-checkers(:options="tags" v-model="selectedRecord.tags" filter)
 </template>
 
 <script>
-import Store from "~/store/Store.js"
+import useStore from "~/store/Store.js"
+import useApp from "~/store/App.js"
 import gSwitcher from "~/components/Controls/gSwitcher.vue"
 import gCheckers from "~/components/Controls/gCheckers.vue"
 import gButton from "~/components/Controls/gButton.vue"
 export default {
 	components: { gSwitcher, gCheckers, gButton },
 	setup() {
-		const { selectedRecord } = Store();
+		const { selectedRecord } = useStore();
+		const { closeToolbarSections, openToolbarSections, soloToolbarSections } = useApp();
 		const tempo = ['slow', 'normal', 'fast']
 		const type = ['aerial', 'static', 'timelapse']
 		const tags = ['nature', 'stars', 'space', 'moon', 'mountains', 'relax', 'abstract', 'blur', 'texture', 'sky', 'clouds', 'sunset', 'forest', 'landscape', 'night', 'rain', 'snow', 'waves', 'water', 'ocean', 'storm', 'lightning', 'people', 'city', 'flowers', 'animals', 'car', 'road']
-		return {selectedRecord, tempo, type, tags}
+		
+		return {
+			selectedRecord, tempo, type, tags,
+			closeToolbarSections,
+			openToolbarSections,
+			soloToolbarSections
+		}
 	}
 };
 </script>
@@ -40,27 +51,37 @@ export default {
 <style lang="stylus" scoped>
 aside.area.area-tool-bar
 	background: #242528
-	padding: 1em
-	font-size: 0.8em
-	display: flex
-	flex-direction: column
-	.vue-star-rating
-		justify-content: center
-	.section
-		border-radius: 0.7em
-		font-size: 0.9em
-		+ .section
-			margin-top: 3em
-		h3
-			width: 100%
-			flex: 1 0 auto
-			font-size: 1.1em
-			line-height: 1
-			margin-bottom: 0.8em
-			text-transform: capitalize
-		&.buttons
-			margin-top: auto
-			display: flex
-			gap: 1em
-			justify-content: space-between
+	font-size: 1em
+	.options
+		background: #222
+		position: sticky
+		top: 0
+		z-index: 8
+		font-size: 0.7em
+		display: flex
+		justify-content: space-between
+		padding: 0 1em
+		.option
+			cursor: pointer
+			padding: 0.5em 1em
+			svg
+				width: 1.5em
+				height: 1.5em
+				margin-right: 0.3em
+				transition: fill 0.3s
+	
+	.sections
+		font-size: 0.7em
+		padding: 1em
+		section + section
+			margin-top: 2em
+		section
+			h3
+				font-size: 1.1em
+				line-height: 1
+				margin-bottom: 0.8em
+		.section-preview
+			background: #222
+			img
+				width: 100%
 </style>
