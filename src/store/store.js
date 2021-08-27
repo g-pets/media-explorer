@@ -102,6 +102,8 @@ export default function useStore() {
 			// formatData(data)
 
 			records.fetchedRecords = data;
+			// records.selectedRecord = Object.values(mapped)[0]
+			records.selectedRecord = records.fetchedRecords[0]
 		} catch(error) {
 			console.error(`‼️ Fetched: ${error}`)
 			store.fetchStatus.isError = true
@@ -112,10 +114,11 @@ export default function useStore() {
 		}
 	}
 
+	
 
 
 	const selectRecord = id => records.selectedRecord = records.fetchedRecords[id]
-	const rejectRecord = id => records.fetchedRecords[id].rejected = !records.fetchedRecords[id].rejected
+	const rejectRecord = (id = records.selectedRecord.id) => records.fetchedRecords[id].rejected = !records.fetchedRecords[id].rejected
 	const checkRecord = id => records.fetchedRecords[id].checked = !records.fetchedRecords[id].checked
 
 	const expandRecord = () => editor.expanded = true

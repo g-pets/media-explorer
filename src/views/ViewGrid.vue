@@ -1,29 +1,21 @@
 <template lang="pug">
 .media-container
-	//- p(v-for="(item, index) in filtered") {{item}}
-
 	
 	.info-panel(v-if="selectedRecord")
 		.counter 1 of {{filtered.length}}
 		g-search(v-model="query")
+	
 	.item-active(v-if="editor.expanded")
 		video(:src="selectedRecord.video_files[1].url" controls muted autoplay loop)
 	
 	.items-list(:style="gridStyle" :class="[editor.expanded ? 'strip-view' : 'grid-view']")
-		template(v-for="(item, id) in filtered")
-			.media-item(
-				@click="recordClick(id)"
-				@click.meta="checkRecord(id)"
-				@click.alt="rejectRecord(id)")
-				icon(v-if="item.rejected" name="reject")
-				icon(v-if="item.selected" name="check")
-				.cover(:class="{selected:item.selected, rejected:item.rejected}")
-					//- img(
-						@mouseover="preloadSlideshow(id)"
-						@mousemove="startSlideshow(id, $event)"
-						@mouseleave="stopSlideshow(id, $event)"
-						:src="item.image" loading="lazy")
-					img(:src="item.image" loading="lazy")
+		media-item(
+			v-for="(item, id) in filtered"
+			:item="item"
+			:class="{selected: selectedRecord.id == id}"
+			@click="recordClick(id)"
+			@click.meta="checkRecord(id)"
+			@click.alt="rejectRecord(id)")
 	
 	.view-control
 		//- .filters Filters:
@@ -46,8 +38,9 @@ import { ref, computed, onMounted } from "vue"
 import Store from "~/store/Store.js"
 import gSearch from "~/components/Controls/gSearch.vue"
 import gRange from "~/components/Controls/gRange.vue"
+import MediaItem from "~/components/Media/MediaItem.vue"
 export default {
-	components: { gSearch, gRange },
+	components: { gSearch, gRange, MediaItem },
 	setup() {
 		const {
 			fetchedRecords,
@@ -60,7 +53,7 @@ export default {
 			editor } = Store()
 		
 		const query = ref(null)
-
+		
 		const filtered = computed(() => {
 			try {
 				if(!query.value) return fetchedRecords.value
@@ -76,40 +69,11 @@ export default {
 			}
 		})
 
-		
-
-		
-
 		const gridStyle = computed(() => {
 			return {
 				'--media-grid-cell-size': editor.cellSize + 'em'
 			}
 		})
-
-		// Slideshow (optimization needed)
-		const preloadSlideshow = id => {
-			const previews = fetchedRecords[id].video_pictures.map(item => item.picture)
-			previews.forEach(image => {
-				let img = new Image();
-				img.src = image;
-			})
-		}
-		const startSlideshow = (id, event) => {
-			const previews = fetchedRecords[id].screenshots
-			const itemWidth = event.target.clientWidth
-			let frameWidth = Math.round(itemWidth / previews.length)
-			let mousePosition = event.layerX;
-			let imageIndex = Math.round(mousePosition/frameWidth)
-			event.target.src = previews[imageIndex]
-			// console.log()
-		}
-		const stopSlideshow = (id, event) => {
-			const preview = fetchedRecords[id].image
-			event.target.src = preview
-		}
-
-		
-		
 
 
 		let timer
@@ -131,7 +95,7 @@ export default {
 				// event.preventDefault();
 				if (event.key === "Escape") collapseRecord()
 				if (event.key === "Enter") expandRecord()
-				if (event.key === "p" || event.key === "Backspace") rejectVideo();
+				if (event.key === "p" || event.key === "Backspace") rejectRecord();
 				if (event.key === "ArrowLeft") nextVideo(-1);
 				if (event.key === "ArrowRight") nextVideo(1);
 				if (event.key === "ArrowUp") nextVideo(-10);
@@ -144,9 +108,11 @@ export default {
 			})
 		}
 
-		// onMounted(() => {
-		// 	hotKeysListner();
-		// })
+		
+
+		onMounted(() => {
+			hotKeysListner();
+		})
 
 		return {
 			editor,
@@ -154,20 +120,14 @@ export default {
 			selectRecord,
 			checkRecord,
 			rejectRecord,
-			selectedRecord,
+			
 			recordClick,
-			preloadSlideshow,
-			startSlideshow,
-			stopSlideshow,
 			gridStyle,
 			query,
-			filtered
-			}
-
-		// return {
-		// 	fetchedRecords,
-		// 	itemClick, editor, ...toRefs(state), rejectItem, selectItem, gridStyle, activeItem, preloadSlideshow, startSlideshow, stopSlideshow }
-
+			filtered,
+			selectRecord,
+			selectedRecord
+		}
 	}
 };
 </script>
@@ -202,50 +162,6 @@ export default {
 			width: 100%
 	
 	.items-list
-		.media-item
-			cursor: pointer
-			position: relative
-			overflow: hidden
-			// transition: 0.25s transform, 0.25s box-shadow
-			&:hover
-				box-shadow: 0 0 0 0.15em var(--c-light-blue)
-				// transform: scale(1.2)
-				z-index: 2
-			svg.icon
-				width: 1.5em
-				height: 1.5em
-				position: absolute
-				z-index: 1
-				&.icon-reject
-					fill: red
-					top: 0.5em
-					left: 0.5em
-				&.icon-check
-					fill: #fff
-					top: 0.5em
-					right: 0.5em
-			.cover
-				transition: filter 0.2s
-				height: 100%
-				img
-					display: block
-					max-width: 100%
-					height: 100%
-					object-fit: cover
-				&.selected
-					position: relative
-					filter: contrast(150%)
-					&:after
-						content: ""
-						position: absolute
-						top: 0
-						left: 0
-						width: 100%
-						height: 100%
-						background: #48a1ff
-						opacity: 0.5
-				&.rejected
-					filter: saturate(0%) contrast(70%) brightness(40%)
 		&.strip-view
 			display: flex
 			width: 100%
@@ -259,7 +175,7 @@ export default {
 		&.grid-view
 			display: grid
 			grid-template-columns: repeat( auto-fill, minmax(var(--media-grid-cell-size), 1fr) )
-			grid-template-rows: repeat(auto-fill, 5em) 20%
+			// grid-template-rows: repeat(auto-fill, 8vw)
 			width: 100%
 			min-height: 100%
 			gap: 1vw
