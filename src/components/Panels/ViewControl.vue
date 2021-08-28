@@ -26,12 +26,11 @@ export default {
 .panel.view-control
 	font-size: 0.8em
 	width: 100%
-	// bottom: 0
-	// position: sticky
 	background: var(--c-content-panel-bg)
-	z-index: 10
 	padding: 0.5em 1vw
 	box-shadow: 0 -0.1em 0.4em rgba(#000,0.2)
 	display: flex
-	justify-content: space-around
+	// justify-content: space-between
+	.control.control-g-range
+		margin-left: auto
 </style>

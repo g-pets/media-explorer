@@ -1,7 +1,7 @@
 <template lang="pug">
+
 filters-panel
 	
-
 .media-container.section-scrolled(:class="`${view.layout}-layout`" :style="layoutStyle")
 	.item-active(v-if="view.layout === 'strip'")
 		video(:src="selectedRecord.video_files[1].url" controls muted autoplay loop)
@@ -96,7 +96,10 @@ export default {
 .media-container
 	&.table-layout
 		.items-list
-			padding: 1vw
+			display: flex
+			flex-direction: column
+			.media-item
+				height: 5em
 	&.grid-layout
 		.items-list
 			display: grid

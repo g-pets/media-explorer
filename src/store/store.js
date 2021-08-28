@@ -1,5 +1,5 @@
 import { reactive, toRefs, computed } from "vue"
-import { formatData, sortArray, bSearch } from "./Utils"
+import { sortArray, bSearch } from "./Utils"
 
 const store = reactive({
 	fetchUrl: "/localShort.json",
@@ -16,12 +16,10 @@ const records = reactive({
 	selectedRecord: null
 })
 
-const editor = reactive({
-	cellSize: 8,
+const filters = reactive({
 	showAuthor: false,
 	showRejected: false,
 	showProcessed: false,
-	expanded: false,
 	query: ""
 })
 
@@ -52,8 +50,8 @@ export default function useStore() {
 
 	const filteredRecords = computed(() => {
 		try {
-			if(!editor.query) return records.fetchedRecords
-			let q = String(editor.query.toLowerCase().trim())
+			if(!filters.query) return records.fetchedRecords
+			let q = String(filters.query.toLowerCase().trim())
 			const result = records.fetchedRecords.filter(item => {
 				let data = [...item.tags, ...item.keywords, ...item.type, item.tempo, item.rating]
 				data = data.join(" ")
@@ -80,12 +78,8 @@ export default function useStore() {
 		let nextIndex = selectedRecordIndex.value + n
 		records.selectedRecord = filteredRecords.value[nextIndex]
 	}
-
 	
-	// const checkRecord = id => records.fetchedRecords[id].checked = !records.fetchedRecords[id].checked
 	const setRating = rating => records.selectedRecord.rating = rating
-	const expandRecord = () => editor.expanded = true
-	const collapseRecord = () => editor.expanded = false
 
 	return {
 		...toRefs(store),
@@ -95,11 +89,9 @@ export default function useStore() {
 		selectedRecordIndex,
 		selectRecord,
 		rejectRecord,
-		expandRecord,
-		collapseRecord,
 		nextRecord,
 		setRating,
-		editor
+		filters
 	}
 
 }

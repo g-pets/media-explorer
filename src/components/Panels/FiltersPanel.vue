@@ -16,13 +16,11 @@
 
 <script>
 import useStore from "~/store/Store"
-import useApp from "~/store/App"
 import gSearch from "~/components/Controls/gSearch.vue"
 export default {
 	components: { gSearch },
 	setup() {
-		const { selectedRecordIndex, filteredRecords } = useStore()
-		const { filters } = useApp()
+		const { selectedRecordIndex, filteredRecords, filters } = useStore()
 		return { selectedRecordIndex, filteredRecords, filters }
 	}
 };
