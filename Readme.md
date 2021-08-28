@@ -1,8 +1,30 @@
-# Explorer
+# Media Explorer (alfa version 🐞🐞🐞)
+Live version: [explorer.gololobov.dev](https://explorer.gololobov.dev)
+
 
 ## Hotkeys
 * Alt + Click: Reject Record
+* Enter: Go to Strip view
+* Esc: Back to grid view
+* p: Reject record
 
-## ToDo:
-* Fix "Strip view" when one element;
+## ⚡️ ToDo:
+* Fill Readme.md;
 * Improve slideshow on hover;
+* Redraw icons;
+* Redraw UI;
+* Improve responsive design;
+* Add PWA;
+* Add Tooltops;
+* Add Hotkeys;
+* Add Up/Down Arrow navigation;
+* Add virtual scroll;
+* Add lazy loading;
+* Add Help page;
+* Add Settings:
+	* API Settings;
+	* Appearance Settings;
+
+## 🐞 Need to Fix:
+* Fix "Strip view" whith one item in roll;
+* Fix rolls shrink in "Strip view";
