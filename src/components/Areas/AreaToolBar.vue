@@ -24,18 +24,21 @@ aside.area.area-tool-bar(v-if="selectedRecord")
 		section.section-tags
 			h3 Tags:
 			g-checkers(:options="tags" v-model="selectedRecord.tags" filter)
+		//- section
+			g-button(@click="saveJson()" text="Save to Json")
 </template>
 
 <script>
-import useStore from "~/store/Store.js"
+import useRecords from "~/store/Records.js"
 // import useApp from "~/store/App.js"
+import gButton from "~/components/Controls/gButton.vue"
 import gRating from "~/components/Controls/gRating.vue"
 import gSwitcher from "~/components/Controls/gSwitcher.vue"
 import gCheckers from "~/components/Controls/gCheckers.vue"
 export default {
-	components: { gRating, gSwitcher, gCheckers },
+	components: { gButton, gRating, gSwitcher, gCheckers },
 	setup() {
-		const { selectedRecord } = useStore();
+		const { selectedRecord, fetchedRecords } = useRecords();
 		// const { closeToolbarSections, openToolbarSections, soloToolbarSections } = useApp();
 		const tempo = [
 			{key: "slow", title: "slow"},
@@ -43,10 +46,14 @@ export default {
 			{key: "fast", title: "fast"}
 		]
 		const type = ['aerial', 'static', 'timelapse']
-		const tags = ['nature', 'stars', 'space', 'moon', 'mountains', 'relax', 'abstract', 'blur', 'texture', 'sky', 'clouds', 'sunset', 'forest', 'landscape', 'night', 'rain', 'snow', 'waves', 'water', 'ocean', 'storm', 'lightning', 'people', 'city', 'flowers', 'animals', 'car', 'road']
+		const tags = ['nature', 'stars', 'space', 'moon', 'mountains', 'desert', 'relax', 'abstract', 'blur', 'texture', 'sky', 'clouds', 'sunset', 'forest', 'landscape', 'night', 'rain', 'snow', 'waves', 'water', 'ocean', 'storm', 'lightning', 'people', 'city', 'flowers', 'animals', 'car', 'road']
 		
+		const saveJson = () => {
+			let jsonData = JSON.stringify(fetchedRecords.value, null, "\t")
+			console.log(jsonData)
+		}
 		return {
-			selectedRecord, tempo, type, tags
+			selectedRecord, tempo, type, tags, saveJson
 		}
 	}
 };

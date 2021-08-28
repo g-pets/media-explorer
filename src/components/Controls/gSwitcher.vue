@@ -55,8 +55,8 @@ export default {
 				padding: 0.5em 0.7em
 				letter-spacing: 0.04em
 				svg.icon
-					width: 1em
-					height: 1em
+					width: 1.2em
+					height: 1.2em
 				.title
 					text-align: center
 			input:checked + .content

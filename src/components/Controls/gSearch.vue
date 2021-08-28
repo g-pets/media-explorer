@@ -40,6 +40,7 @@ export default {
 		width: 1.5em
 		height: 1.5em
 		fill: #aaa
+		flex-shrink: 0
 	input
 		background: transparent
 		text-indent: 0.3em

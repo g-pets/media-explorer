@@ -28,3 +28,7 @@
 ## Hotkeys
 * Alt + Click: Reject
 * Command + Click: Select
+
+
+## Bugs:
+* Fix "Strip view" when one element

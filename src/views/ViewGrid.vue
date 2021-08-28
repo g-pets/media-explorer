@@ -4,7 +4,7 @@ filters-panel
 	
 .media-container.section-scrolled(:class="`${view.layout}-layout`" :style="layoutStyle")
 	.item-active(v-if="view.layout === 'strip'")
-		video(:src="selectedRecord.video_files[1].url" controls muted autoplay loop)
+		video(:src="selectedRecord.video_files[3].url" controls muted autoplay loop)
 
 	.items-list
 		media-item(
@@ -20,7 +20,7 @@ view-control
 
 <script>
 import { onMounted } from "vue"
-import useStore from "~/store/Store.js"
+import useRecords from "~/store/Records.js"
 import useApp from "~/store/App"
 import gSearch from "~/components/Controls/gSearch.vue"
 import MediaItem from "~/components/Media/MediaItem.vue"
@@ -29,21 +29,11 @@ import ViewControl from "~/components/Panels/ViewControl.vue"
 export default {
 	components: { gSearch, MediaItem, FiltersPanel, ViewControl },
 	setup() {
-		const {
-			selectRecord,
-			selectedRecord,
-			rejectRecord,
-			nextRecord,
-			setRating,
-			filteredRecords } = useStore()
+		const { selectRecord, selectedRecord, rejectRecord, nextRecord, setRating, filteredRecords } = useRecords()
 		const { layoutStyle, view, switchLayout } = useApp()
-		
-
-		
-
-
 		let timer
 		let clicks = 0
+
 		const recordClick = id => {
 			selectRecord(id)
 			clicks++
@@ -55,14 +45,12 @@ export default {
 			}
         }
 
-
-
 		const hotKeysListner = () => {
 			window.addEventListener('keydown', event => {
 				// event.preventDefault();
 				if (event.key === "Escape") switchLayout('grid')
 				if (event.key === "Enter") switchLayout('strip')
-				if (event.key === "p" || event.key === "Backspace") rejectRecord();
+				if (event.key === "p") rejectRecord();
 				if (event.key === "ArrowLeft") nextRecord(-1);
 				if (event.key === "ArrowRight") nextRecord(1);
 				// if (event.key === "ArrowUp") nextRecord(-10);

@@ -8,12 +8,6 @@ const ViewGrid = () => import( "~/views/ViewGrid.vue" );
 
 // routes
 const routes = [
-	// {
-	// 	path: "/not-supported/",
-	// 	name: "NotSupportedLayer",
-	// 	component: NotSupportedLayer
-	// },
-	// { path: '/', redirect: { name: 'LockScreen' } },
 	{
 		path: "/",
 		component: LayoutGallery,
@@ -23,10 +17,6 @@ const routes = [
 				path: "/",
 				name: "ViewGrid",
 				component: ViewGrid
-			},
-			{
-				path: "",
-				redirect: { name: "ViewGrid" },
 			}
 		]
 	},

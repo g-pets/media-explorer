@@ -5,8 +5,8 @@ header.area.area-top-bar
 		h1 Explorer
 		sup.app-version &alpha;
 	.controls
-		icon(name="settings" @click="toggleSettings()")
-		icon(name="help" @click="toggleHelp()")
+		//- icon(name="settings" @click="toggleSettings()")
+		//- icon(name="help" @click="toggleHelp()")
 		icon(name="fullscreen" @click="toggleFullscreen()")
 </template>
 
@@ -43,7 +43,8 @@ header.area.area-top-bar
 			margin-top: 0.2em
 			font-weight: bold
 		.app-version
-			margin-left: 0.3em
+			color: #bbb
+			margin-left: 0.2em
 	.controls
 		margin-left: auto
 		svg.icon
