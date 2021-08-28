@@ -14,8 +14,9 @@ Live version: [explorer.gololobov.dev](https://explorer.gololobov.dev)
 * Redraw icons;
 * Redraw UI;
 * Improve responsive design;
+* Add Table View;
 * Add PWA;
-* Add Tooltops;
+* Add Tooltips;
 * Add Hotkeys;
 * Add Up/Down Arrow navigation;
 * Add virtual scroll;
@@ -28,3 +29,5 @@ Live version: [explorer.gololobov.dev](https://explorer.gololobov.dev)
 ## 🐞 Need to Fix:
 * Fix "Strip view" whith one item in roll;
 * Fix rolls shrink in "Strip view";
+* Fix Range slider in Chrome;
+* Fix selected item after Filtering;

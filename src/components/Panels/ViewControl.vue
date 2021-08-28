@@ -12,7 +12,7 @@ export default {
 	components: { gSwitcher, gRange },
 	setup() {
 		const layouts = [
-			{key: "table", icon: "table-view", tooltip: "Switch to Table view"},
+			// {key: "table", icon: "table-view", tooltip: "Switch to Table view"},
 			{key: "grid", icon: "grid-view", tooltip: "Switch to Grid view"},
 			{key: "strip", icon: "strip-view", tooltip: "Switch to Strip view"},
 		]
