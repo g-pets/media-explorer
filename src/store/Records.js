@@ -65,7 +65,7 @@ export default function useStore() {
 			if(!filters.query) return preFiltered.value
 			let q = String(filters.query.toLowerCase().trim())
 			const result = preFiltered.value.filter(item => {
-				let data = [...item.tags, ...item.keywords, ...item.type, item.tempo, item.rating, item.author.name]
+				let data = [...item.tags, ...item.keywords, ...item.type, item.tempo, item.rating, item.author.name, item.note]
 				data = data.join(" ")
 				if(data.includes(q)) return true
 			})
@@ -86,8 +86,10 @@ export default function useStore() {
 	}
 
 	const nextRecord = n => {
+		if( selectedRecordIndex.value + n < 0 || selectedRecordIndex.value + n >= filteredRecords.value.length ) return // return, if out of index
 		let nextIndex = selectedRecordIndex.value + n
 		records.selectedRecord = filteredRecords.value[nextIndex]
+		document.getElementById(`media-item-${records.selectedRecord.id}`).scrollIntoView({behavior: "smooth", block: "center", inline: "center"})
 	}
 	
 	const setRating = rating => records.selectedRecord.rating = rating

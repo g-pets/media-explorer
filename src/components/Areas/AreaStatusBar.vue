@@ -15,11 +15,13 @@ footer.area.area-status-bar
 		cursor: pointer
 		transition: 0.2s color
 		svg.icon
-			width: 1.4em
-			height: 1.4em
+			width: 1.3em
+			height: 1.3em
 			fill: #aaa
 			transition: 0.2s fill
 			margin-right: 0.5em
+		span
+			font-size: 0.9em
 		&:hover
 			color: #fff
 			svg.icon

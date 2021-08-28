@@ -31,4 +31,7 @@
 
 
 ## Bugs:
-* Fix "Strip view" when one element
+* Fix "Strip view" when one element;
+
+## Need to fix:
+* Improve slideshow on hover;

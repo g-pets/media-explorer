@@ -13,7 +13,6 @@ aside.area.area-tool-bar(v-if="selectedRecord")
 		section.section-preview
 			img(:src="selectedRecord.image")
 		section.section-type
-			h3 Rating:
 			g-rating(:max="5" v-model="selectedRecord.rating")
 		section.section-tempo
 			h3 Tempo:
@@ -21,9 +20,13 @@ aside.area.area-tool-bar(v-if="selectedRecord")
 		section.section-type
 			h3 Type:
 			g-checkers(:options="type" v-model="selectedRecord.type")
+		section.section-notes
+			h3 Note:
+			textarea.note(v-model="selectedRecord.note")
 		section.section-tags
 			h3 Tags:
 			g-checkers(:options="tags" v-model="selectedRecord.tags" filter)
+		
 		//- section
 			g-button(@click="saveJson()" text="Save to Json")
 </template>
@@ -85,7 +88,7 @@ aside.area.area-tool-bar
 		font-size: 0.7em
 		padding: 1em
 		section + section
-			margin-top: 2em
+			margin-top: 1.5em
 		section
 			h3
 				font-size: 1.1em
@@ -99,4 +102,17 @@ aside.area.area-tool-bar
 				width: 100%
 				height: 100%
 				object-fit: cover
+		textarea.note
+			width: 100%
+			height: 4em
+			resize: none
+			background: #222
+			color: #fff
+			line-height: 1.3
+			padding: 0.3em 0.5em
+			font-size: 1.2em
+			border-radius: 0.4em
+			border: none
+			&:focus
+				outline: 0.2em var(--c-blue) solid
 </style>

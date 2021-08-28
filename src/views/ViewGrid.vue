@@ -9,6 +9,7 @@ filters-panel
 	.items-list
 		media-item(
 			v-for="(item, index) in filteredRecords"
+			:id="`media-item-${item.id}`"
 			:item="item"
 			:class="{selected: selectedRecord.id == item.id}"
 			@click="recordClick(item.id)"
