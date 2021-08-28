@@ -1,0 +1,31 @@
+{
+  "index.html": {
+    "file": "assets/index.35ce6458.js",
+    "src": "index.html",
+    "isEntry": true,
+    "imports": [
+      "_vendor.dd811f19.js"
+    ],
+    "dynamicImports": [
+      "src/views/ViewGrid.vue"
+    ],
+    "css": [
+      "assets/index.399b4620.css"
+    ]
+  },
+  "_vendor.dd811f19.js": {
+    "file": "assets/vendor.dd811f19.js"
+  },
+  "src/views/ViewGrid.vue": {
+    "file": "assets/ViewGrid.26e095ab.js",
+    "src": "src/views/ViewGrid.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "index.html",
+      "_vendor.dd811f19.js"
+    ],
+    "css": [
+      "assets/ViewGrid.d28e1016.css"
+    ]
+  }
+}

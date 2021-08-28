@@ -1,10 +1,10 @@
 version: '3.9'
 services:
-    # Media Panel
-    media-panel:
-        container_name: media-panel
+    # Explorer
+    explorer:
+        container_name: explorer
         build: .
-        image: media-panel:1.0
+        image: explorer:1.0
         ports:
             - 80:5000 # Build
             - 81:5001 #Dev
