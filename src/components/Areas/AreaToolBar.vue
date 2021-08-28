@@ -37,7 +37,11 @@ export default {
 	setup() {
 		const { selectedRecord } = useStore();
 		const { closeToolbarSections, openToolbarSections, soloToolbarSections } = useApp();
-		const tempo = ['slow', 'normal', 'fast']
+		const tempo = [
+			{key: "slow", title: "slow"},
+			{key: "normal", title: "normal"},
+			{key: "fast", title: "fast"}
+		]
 		const type = ['aerial', 'static', 'timelapse']
 		const tags = ['nature', 'stars', 'space', 'moon', 'mountains', 'relax', 'abstract', 'blur', 'texture', 'sky', 'clouds', 'sunset', 'forest', 'landscape', 'night', 'rain', 'snow', 'waves', 'water', 'ocean', 'storm', 'lightning', 'people', 'city', 'flowers', 'animals', 'car', 'road']
 		

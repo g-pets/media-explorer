@@ -1,10 +1,11 @@
 <template lang="pug">
 .control.control-g-switcher
 	.switches
-		label.switch(v-for="option in options")
+		label.switch(v-for="option in options" :title="option.tooltip")
 			input(type="radio" :name="`radio_group_${id}`" :checked="checked(option)" @click="update(option)")
 			.content
-				.name {{option}}
+				icon(v-if="option.icon" :name="option.icon")
+				.title(v-if="option.title") {{option.title}}
 </template>
 
 <script>
@@ -19,8 +20,8 @@ export default {
 		},
 	},
 	setup(props, context) {
-		const checked = option => props.modelValue === option
-		const update = (option) => context.emit('update:modelValue', option)
+		const checked = option => props.modelValue === option.key
+		const update = (option) => context.emit('update:modelValue', option.key)
 		return { checked, update }
 	}
 }
@@ -53,11 +54,16 @@ export default {
 				color: #ccc
 				padding: 0.5em 0.7em
 				letter-spacing: 0.04em
-				.name
+				svg.icon
+					width: 1em
+					height: 1em
+				.title
 					text-align: center
 			input:checked + .content
 				background: var(--c-blue)
 				color: #fff
+				svg.icon
+					fill: #fff
 			+ .switch
 				border-left: 1px solid #333
 				

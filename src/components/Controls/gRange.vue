@@ -25,8 +25,8 @@ export default {
 	align-items: center
 	width: 12em
 	svg.icon
-		width: 1.6em
-		height: 1.6em
+		width: 1.4em
+		height: 1.4em
 		fill: #aaa
 		flex: 1 0 auto
 	input
@@ -60,9 +60,9 @@ export default {
 	// Track
 	input[type=range]::-webkit-slider-runnable-track, input[type=range]::-moz-range-track
 		width: 100%
-		height: 0.3em
+		height: 0.2em
 		cursor: pointer
-		background: #3071a9
+		background: var(--c-blue)
 
 	input[type=range]:focus::-webkit-slider-runnable-track
 		background: #367ebd

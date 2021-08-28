@@ -1,5 +1,5 @@
 <template lang="pug">
-main.area.area-content
+main.area.area-content.flex-column-container
 	slot
 </template>
 
@@ -10,5 +10,6 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-// main.area.area-content		
+// main.area.area-content
+// 	height: 100%	
 </style>

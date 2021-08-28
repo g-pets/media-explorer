@@ -87,6 +87,19 @@
 			<symbol id="icon_star" viewBox="0 0 24 24">
 				<path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
 			</symbol>
+
+
+			<symbol id="icon_table-view" viewBox="0 0 24 24">
+				<path d="M22 7a1 1 0 01-1 1H3a1 1 0 01-1-1V5a1 1 0 011-1h18a1 1 0 011 1v2zm0 4a1 1 0 00-1-1H3a1 1 0 00-1 1v2a1 1 0 001 1h18a1 1 0 001-1v-2zm0 6a1 1 0 00-1-1H3a1 1 0 00-1 1v2a1 1 0 001 1h18a1 1 0 001-1v-2z"/>
+			</symbol>
+
+			<symbol id="icon_grid-view" viewBox="0 0 24 24">
+				<path d="M2 5a1 1 0 011-1h3a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1V5zM2 14a1 1 0 011-1h3a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM9 5a1 1 0 011-1h3a1 1 0 011 1v5a1 1 0 01-1 1h-3a1 1 0 01-1-1V5zM9 14a1 1 0 011-1h3a1 1 0 011 1v5a1 1 0 01-1 1h-3a1 1 0 01-1-1v-5zM16 5a1 1 0 011-1h3a1 1 0 011 1v5a1 1 0 01-1 1h-3a1 1 0 01-1-1V5zM16 14a1 1 0 011-1h3a1 1 0 011 1v5a1 1 0 01-1 1h-3a1 1 0 01-1-1v-5z"/>
+			</symbol>
+			
+			<symbol id="icon_strip-view" viewBox="0 0 24 24">
+				<path d="M2 5a1 1 0 011-1h1a1 1 0 011 1v14a1 1 0 01-1 1H3a1 1 0 01-1-1V5zM19 5a1 1 0 011-1h1a1 1 0 011 1v14a1 1 0 01-1 1h-1a1 1 0 01-1-1V5zM7 5a1 1 0 011-1h8a1 1 0 011 1v14a1 1 0 01-1 1H8a1 1 0 01-1-1V5z"/>
+			</symbol>
 		</defs>
 	</svg>
 </template>

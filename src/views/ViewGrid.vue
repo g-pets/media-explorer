@@ -1,66 +1,45 @@
 <template lang="pug">
-.media-container
+filters-panel
 	
-	.info-panel(v-if="selectedRecord")
-		.counter {{selectedRecordIndex + 1}} of {{filteredRecords.length}}
-		g-search(v-model="editor.query")
-	
-	.item-active(v-if="editor.expanded")
+
+.media-container.section-scrolled(:class="`${view.layout}-layout`" :style="layoutStyle")
+	.item-active(v-if="view.layout === 'strip'")
 		video(:src="selectedRecord.video_files[1].url" controls muted autoplay loop)
-	
-	.items-list(:style="gridStyle" :class="[editor.expanded ? 'strip-view' : 'grid-view']")
+
+	.items-list
 		media-item(
 			v-for="(item, index) in filteredRecords"
 			:item="item"
 			:class="{selected: selectedRecord.id == item.id}"
 			@click="recordClick(item.id)"
 			@click.alt="rejectRecord(item.id)")
-	
-	.view-control
-		//- .filters Filters:
-			label.showRejected.checker(title="Show all videos of this author")
-				//- input(type="checkbox" v-model="editor.showAuthor")
-				icon(name="author")
-			label.showRejected.checker(title="Show rejected videos")
-				//- input(type="checkbox" v-model="editor.showRejected")
-				icon(name="show-rejected")
-			label.showProcessed.checker(title="Show processed videos")
-				//- input(type="checkbox" v-model="editor.showProcessed")
-				icon(name="show-processed")
-		g-range(:min="1" :max="20" v-model="editor.cellSize" :icons="['small-cell', 'large-cell']")
-				
-		
+
+view-control
+
 </template>
 
 <script>
-import { ref, computed, onMounted } from "vue"
+import { onMounted } from "vue"
 import useStore from "~/store/Store.js"
+import useApp from "~/store/App"
 import gSearch from "~/components/Controls/gSearch.vue"
-import gRange from "~/components/Controls/gRange.vue"
 import MediaItem from "~/components/Media/MediaItem.vue"
+import FiltersPanel from "~/components/Panels/FiltersPanel.vue"
+import ViewControl from "~/components/Panels/ViewControl.vue"
 export default {
-	components: { gSearch, gRange, MediaItem },
+	components: { gSearch, MediaItem, FiltersPanel, ViewControl },
 	setup() {
 		const {
-			fetchedRecords,
 			selectRecord,
 			selectedRecord,
-			selectedRecordIndex,
-			checkRecord,
 			rejectRecord,
-			expandRecord,
-			collapseRecord,
 			nextRecord,
 			setRating,
-			filteredRecords,
-			editor } = useStore()
+			filteredRecords } = useStore()
+		const { layoutStyle, view, switchLayout } = useApp()
 		
 
-		const gridStyle = computed(() => {
-			return {
-				'--media-grid-cell-size': editor.cellSize + 'em'
-			}
-		})
+		
 
 
 		let timer
@@ -71,7 +50,7 @@ export default {
 			if (clicks === 1) timer = setTimeout(() => clicks = 0, 200);
 			else {
 				clearTimeout(timer);  
-				expandRecord(id);
+				switchLayout('strip');
 				clicks = 0;
 			}
         }
@@ -81,8 +60,8 @@ export default {
 		const hotKeysListner = () => {
 			window.addEventListener('keydown', event => {
 				// event.preventDefault();
-				if (event.key === "Escape") collapseRecord()
-				if (event.key === "Enter") expandRecord()
+				if (event.key === "Escape") switchLayout('grid')
+				if (event.key === "Enter") switchLayout('strip')
 				if (event.key === "p" || event.key === "Backspace") rejectRecord();
 				if (event.key === "ArrowLeft") nextRecord(-1);
 				if (event.key === "ArrowRight") nextRecord(1);
@@ -102,79 +81,51 @@ export default {
 		})
 
 		return {
-			editor,
-			fetchedRecords,
-			selectRecord,
-			checkRecord,
+			recordClick,
+			view,
 			rejectRecord,
 			filteredRecords,
-			recordClick,
-			gridStyle,
-			selectRecord,
 			selectedRecord,
-			selectedRecordIndex
+			layoutStyle
 		}
 	}
 };
 </script>
 
-<style lang="stylus">
+<style lang="stylus">	
 .media-container
-	display: flex
-	flex-direction: column
-	min-height: 100%
-
-	.info-panel
-		background: var(--c-content-panel-bg)
+	&.table-layout
+		.items-list
+			padding: 1vw
+	&.grid-layout
+		.items-list
+			display: grid
+			grid-template-columns: repeat( auto-fill, minmax(var(--media-cell-size), 1fr) )
+			// grid-template-rows: repeat(auto-fill, 8vw)
+			// grid-template-columns: repeat( auto-fill, minmax(10em, 1fr) )			
+			// width: 100%
+			// min-height: 100%
+			gap: 1vw
+			padding: 1vw
+	&.strip-layout
 		display: flex
-		font-size: 0.8em
-		justify-content: space-between
-		align-items: center
-		line-height: 1
-		padding: 0.5em 1vw
-		position: sticky
-		top: 0
-		z-index: 10
-		color: #aaa
-		box-shadow: 0 0.1em 0.4em rgba(#000,0.2)
-		input
-			border: none
-			background: #333
-	
-	.item-active
-		margin: auto
-		width: 90%
-		video
-			width: 100%
-	
-	.items-list
-		&.strip-view
+		flex-direction: column
+		.item-active
+			margin: auto
+			width: 90%
+			video
+				width: 100%
+		.items-list
 			display: flex
 			width: 100%
 			gap: 1vw
 			overflow scroll
-			// background: #222
+			background: #222
 			padding: 1em 0.5em
 			.media-item
 				flex: 1 0 auto
 				width: 7em
-		&.grid-view
-			display: grid
-			grid-template-columns: repeat( auto-fill, minmax(var(--media-grid-cell-size), 1fr) )
-			// grid-template-rows: repeat(auto-fill, 8vw)
-			width: 100%
-			min-height: 100%
-			gap: 1vw
-			padding: 1vw
 
-.view-control
-	font-size: 0.8em
-	width: 100%
-	bottom: 0
-	position: sticky
-	background: var(--c-content-panel-bg)
-	z-index: 10
-	padding: 0.5em 1vw
-	box-shadow: 0 -0.1em 0.4em rgba(#000,0.2)
+
 
 </style>

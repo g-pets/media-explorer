@@ -1,4 +1,4 @@
-import { reactive, toRefs } from "vue"
+import { reactive, toRefs, computed } from "vue"
 
 const appSettings = reactive({
 	fetchUrl: "/localShort.json",
@@ -10,6 +10,16 @@ const appSettings = reactive({
 	overlays: {
 		settings: false,
 		help: false
+	},
+	view: {
+		layout: 'grid',
+		tableCell: 5,
+		gridCell: 5,
+		stripCell: 5,
+		style: []
+	},
+	filters: {
+		query: ""
 	}
 })
 
@@ -22,12 +32,22 @@ export default function useApp() {
 	const openToolbarSections = () => console.log("open")
 	const soloToolbarSections = () => console.log("solo")
 
+	const switchLayout = layout => appSettings.view.layout = layout
+
+	const layoutStyle = computed(() => {
+		return {
+			'--media-cell-size': appSettings.view.gridCell + 'em'
+		}
+	})
+
 	return {
 		...toRefs(appSettings),
+		layoutStyle,
 		toggleSettings,
 		toggleHelp,
 		closeToolbarSections,
 		openToolbarSections,
-		soloToolbarSections
+		soloToolbarSections,
+		switchLayout
 	}
 }
