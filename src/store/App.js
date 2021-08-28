@@ -14,12 +14,9 @@ const appSettings = reactive({
 	view: {
 		layout: 'grid',
 		tableCell: 5,
-		gridCell: 5,
+		gridCell: 8,
 		stripCell: 5,
 		style: []
-	},
-	filters: {
-		query: ""
 	}
 })
 

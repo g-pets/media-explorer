@@ -1,7 +1,7 @@
 <template lang="pug">
 aside.area.area-tool-bar(v-if="selectedRecord")
 	
-	.options
+	//- .options
 		.option(@click="closeToolbarSections()")
 			icon(name="sections-close")
 		.option(@click="openToolbarSections()")
@@ -28,7 +28,7 @@ aside.area.area-tool-bar(v-if="selectedRecord")
 
 <script>
 import useStore from "~/store/Store.js"
-import useApp from "~/store/App.js"
+// import useApp from "~/store/App.js"
 import gRating from "~/components/Controls/gRating.vue"
 import gSwitcher from "~/components/Controls/gSwitcher.vue"
 import gCheckers from "~/components/Controls/gCheckers.vue"
@@ -36,7 +36,7 @@ export default {
 	components: { gRating, gSwitcher, gCheckers },
 	setup() {
 		const { selectedRecord } = useStore();
-		const { closeToolbarSections, openToolbarSections, soloToolbarSections } = useApp();
+		// const { closeToolbarSections, openToolbarSections, soloToolbarSections } = useApp();
 		const tempo = [
 			{key: "slow", title: "slow"},
 			{key: "normal", title: "normal"},
@@ -46,10 +46,7 @@ export default {
 		const tags = ['nature', 'stars', 'space', 'moon', 'mountains', 'relax', 'abstract', 'blur', 'texture', 'sky', 'clouds', 'sunset', 'forest', 'landscape', 'night', 'rain', 'snow', 'waves', 'water', 'ocean', 'storm', 'lightning', 'people', 'city', 'flowers', 'animals', 'car', 'road']
 		
 		return {
-			selectedRecord, tempo, type, tags,
-			closeToolbarSections,
-			openToolbarSections,
-			soloToolbarSections
+			selectedRecord, tempo, type, tags
 		}
 	}
 };

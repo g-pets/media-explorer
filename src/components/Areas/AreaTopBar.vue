@@ -1,8 +1,9 @@
 <template lang="pug">
 header.area.area-top-bar
-	h1
-		icon(name="logo")
-		span.title Explorer
+	.app-title
+		icon.app-logo(name="logo")
+		h1 Explorer
+		sup.app-version &alpha;
 	.controls
 		icon(name="settings" @click="toggleSettings()")
 		icon(name="help" @click="toggleHelp()")
@@ -29,18 +30,20 @@ header.area.area-top-bar
 	padding: 0.5em 1vw
 	display: flex
 	align-items: center
-	h1
+	.app-title
 		display: flex
 		align-items: center
 		line-height: 1
-		svg.icon-logo
+		.app-logo
 			fill: #fff
 			width: 1.5em
 			height: 1.5em
 			margin-right: 0.3em
-		span.title
+		h1
 			margin-top: 0.2em
 			font-weight: bold
+		.app-version
+			margin-left: 0.3em
 	.controls
 		margin-left: auto
 		svg.icon

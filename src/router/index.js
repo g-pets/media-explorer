@@ -20,7 +20,7 @@ const routes = [
 		namе: "LayoutGallery",
 		children: [
 			{
-				path: "grid-view/",
+				path: "/",
 				name: "ViewGrid",
 				component: ViewGrid
 			},
