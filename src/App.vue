@@ -19,12 +19,12 @@ icons-set
 <script>
 import { onBeforeMount } from "vue"
 import IconsSet from "~/components/Icons/IconsSet.vue"
-import Store from "~/store/Store.js"
+import useStore from "~/store/Store.js"
 import useApp from "~/store/App"
 export default {
 	components: { IconsSet },
 	setup() {
-		const { fetchRecords, fetchStatus, fetchUrl } = Store()
+		const { fetchRecords, fetchStatus, fetchUrl } = useStore()
 		const { overlays } = useApp()
 		onBeforeMount(() => fetchRecords())
 		return { fetchStatus, overlays, fetchUrl }

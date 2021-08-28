@@ -34,7 +34,7 @@
 
 <script>
 import { ref, computed, onMounted } from "vue"
-import Store from "~/store/Store.js"
+import useStore from "~/store/Store.js"
 import gSearch from "~/components/Controls/gSearch.vue"
 import gRange from "~/components/Controls/gRange.vue"
 import MediaItem from "~/components/Media/MediaItem.vue"
@@ -53,7 +53,7 @@ export default {
 			nextRecord,
 			setRating,
 			filteredRecords,
-			editor } = Store()
+			editor } = useStore()
 		
 
 		const gridStyle = computed(() => {

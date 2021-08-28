@@ -1,4 +1,5 @@
 import { reactive, toRefs, computed } from "vue"
+import { formatData, sortArray, bSearch } from "./Utils"
 
 const store = reactive({
 	fetchUrl: "/localShort.json",
@@ -24,86 +25,20 @@ const editor = reactive({
 	query: ""
 })
 
-// Temp (format data)
-const formatData= (data) => {
-	const formatted = []
-	data.forEach(item => {
-		let video = {
-			id: item.id,
-			title: "",
-			width: item.width,
-			height: item.height,
-			duration: item.duration,
-			url: item.url,
-			image: item.image,
-			author: item.user,
-			keywords: [],
-			tags: [],
-			type: [],
-			rating: 0,
-			processed: false,
-			rejected: false,
-			tempo: "normal",
-			video_files: [],
-			screenshots: []
-		}
-
-		// Generate Title
-		video.title = item.url.split("/video/").pop().replace(`-${item.id}/`, '').replaceAll('-', ' ')
-
-		// Generate Keywords
-		let keywords = video.title.split(" ")
-		video.keywords = keywords.filter(keyword => keyword.length >= 4);
-
-		// UpperCase title
-		video.title = video.title.charAt(0).toUpperCase() + video.title.slice(1);
-		
-		// Generate Video Files
-		item.video_files.forEach(videoItem => {
-			video.video_files.push({
-				width: videoItem.width,
-				height: videoItem.height,
-				url: videoItem.link
-			})
-		})
-		video.video_files.sort((a, b) => {
-			return a.width - b.width;
-		});
-
-		
-		
-		// Generate Screenshots
-		item.video_pictures.forEach(screenshotItem => {
-			video.screenshots.push(screenshotItem.picture)
-		})
-		formatted.push(video)
-	});
-	let jsonData = JSON.stringify(formatted, null, "\t")
-	console.log(jsonData)
-}
-
 
 
 export default function useStore() {
 
-	
 	const fetchRecords = async () => {
 		console.group("⬇️ Fetching Items from API...")
 		try {
 			let response = await fetch(store.fetchUrl);
 			if(!response.ok) throw new Error(`Fetching from API: ${response.statusText}`)
 			let parsed = await response.json();
-			let data = parsed
+			let data = parsed;
+			data = sortArray("id", data);
 			console.log(`· Fetched ${data.length} items.`);
-			// const mapped = {}
-			// data.forEach(item => {
-			// 	mapped[item.id] = item
-			// });
-
-			// formatData(data)
-
 			records.fetchedRecords = data;
-			// records.selectedRecord = Object.values(mapped)[0]
 			records.selectedRecord = records.fetchedRecords[0]
 		} catch(error) {
 			console.error(`‼️ Fetched: ${error}`)
@@ -132,10 +67,9 @@ export default function useStore() {
 
 	
 
-
 	const selectRecord = id => records.selectedRecord = filteredRecords.value.find(record => record.id == id)
 	
-	const selectedRecordIndex = computed(() => filteredRecords.value.findIndex(record => record.id == records.selectedRecord.id))
+	const selectedRecordIndex = computed(() => bSearch(records.selectedRecord.id, filteredRecords.value))
 	
 	const rejectRecord = (id = records.selectedRecord.id) => {
 		let record = filteredRecords.value.find(record => record.id == id)
