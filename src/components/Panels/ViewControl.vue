@@ -1,7 +1,7 @@
 <template lang="pug">
 .panel.view-control.section-fixed
 	g-switcher(id="layout" :options="layouts" v-model="view.layout")
-	g-range(:min="1" :max="20" v-model.number="view.gridCell" :icons="['small-cell', 'large-cell']")
+	g-range(:min="1" :max="20" v-model.number="view[view.layout]" :icons="[`${view.layout}-view-compact`, `${view.layout}-view-wide`]")
 </template>
 
 <script>
@@ -12,7 +12,7 @@ export default {
 	components: { gSwitcher, gRange },
 	setup() {
 		const layouts = [
-			// {key: "table", icon: "table-view", tooltip: "Switch to Table view"},
+			{key: "table", icon: "table-view", tooltip: "Switch to Table view"},
 			{key: "grid", icon: "grid-view", tooltip: "Switch to Grid view"},
 			{key: "strip", icon: "strip-view", tooltip: "Switch to Strip view"},
 		]
@@ -24,7 +24,7 @@ export default {
 
 <style lang="stylus" scoped>
 .panel.view-control
-	font-size: 0.8em
+	font-size: 1em
 	width: 100%
 	background: var(--c-content-panel-bg)
 	padding: 0.5em 1vw

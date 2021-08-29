@@ -23,6 +23,7 @@ Live version: [explorer.gololobov.dev](https://explorer.gololobov.dev)
 * Improve slideshow on hover;
 * Redraw icons;
 * Redraw UI;
+* Styling Video Player;
 * Improve responsive design;
 * Add Table View;
 * Add PWA;

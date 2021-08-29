@@ -13,9 +13,9 @@ const appSettings = reactive({
 	},
 	view: {
 		layout: 'grid',
-		tableCell: 5,
-		gridCell: 8,
-		stripCell: 5,
+		table: 5,
+		grid: 8,
+		strip: 5,
 		style: []
 	}
 })
@@ -33,7 +33,7 @@ export default function useApp() {
 
 	const layoutStyle = computed(() => {
 		return {
-			'--media-cell-size': appSettings.view.gridCell + 'em'
+			'--media-cell-size': appSettings.view[appSettings.view.layout] + 'em'
 		}
 	})
 
