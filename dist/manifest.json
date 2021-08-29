@@ -1,31 +1,31 @@
 {
   "index.html": {
-    "file": "assets/index.53d81af4.js",
+    "file": "assets/index.a79fde42.js",
     "src": "index.html",
     "isEntry": true,
     "imports": [
-      "_vendor.dd811f19.js"
+      "_vendor.26956d2b.js"
     ],
     "dynamicImports": [
       "src/views/ViewGrid.vue"
     ],
     "css": [
-      "assets/index.dbacda11.css"
+      "assets/index.3b30f82f.css"
     ]
   },
-  "_vendor.dd811f19.js": {
-    "file": "assets/vendor.dd811f19.js"
+  "_vendor.26956d2b.js": {
+    "file": "assets/vendor.26956d2b.js"
   },
   "src/views/ViewGrid.vue": {
-    "file": "assets/ViewGrid.9f27ae9f.js",
+    "file": "assets/ViewGrid.91b579da.js",
     "src": "src/views/ViewGrid.vue",
     "isDynamicEntry": true,
     "imports": [
       "index.html",
-      "_vendor.dd811f19.js"
+      "_vendor.26956d2b.js"
     ],
     "css": [
-      "assets/ViewGrid.b78ed576.css"
+      "assets/ViewGrid.eebf1672.css"
     ]
   }
 }

@@ -2,7 +2,7 @@
 footer.area.area-status-bar
 	a.github-link(href="https://github.com/g-pets/media-explorer" rel="noopener" target="_blank")
 		icon(name="github")
-		span v.1.0.0.alpha1
+		span v.1.0.0.alpha2
 </template>
 
 <style lang="stylus" scoped>

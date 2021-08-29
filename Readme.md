@@ -2,17 +2,32 @@
 Live version: [explorer.gololobov.dev](https://explorer.gololobov.dev)
 
 
+## ⚡️ Features
+* Live search by tags, rating, keywords, notes;
+* Preview on hover;
+* Filtering records by author, rejected and/or processed items;
+* Hotkeys and Modificators;
+
+
 ## Hotkeys
 * Alt + Click: Reject Record
 * Enter: Go to Strip view
 * Esc: Back to grid view
 * p: Reject record
+* 0-5: Set rating
 
-## ⚡️ ToDo:
+## 🐞 Need to Fix:
+* Improve perfomance!!!
+* Fix Switch to next record after "Rejected";
+* Fix "DataCloneError";
+* Fix Key Bindings;
+
+## 📝 ToDo:
 * Fill Readme.md;
 * Improve slideshow on hover;
 * Redraw icons;
 * Redraw UI;
+* Styling Video Player;
 * Improve responsive design;
 * Add Table View;
 * Add PWA;
@@ -25,9 +40,3 @@ Live version: [explorer.gololobov.dev](https://explorer.gololobov.dev)
 * Add Settings:
 	* API Settings;
 	* Appearance Settings;
-
-## 🐞 Need to Fix:
-* Fix "Strip view" whith one item in roll;
-* Fix rolls shrink in "Strip view";
-* Fix Range slider in Chrome;
-* Fix selected item after Filtering;

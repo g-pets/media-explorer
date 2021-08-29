@@ -1,4 +1,4 @@
-import { reactive, toRefs, computed } from "vue"
+import { reactive, toRefs, computed, onBeforeMount, watchEffect } from "vue"
 
 const appSettings = reactive({
 	fetchUrl: "/localShort.json",
@@ -13,15 +13,25 @@ const appSettings = reactive({
 	},
 	view: {
 		layout: 'grid',
-		tableCell: 5,
-		gridCell: 8,
-		stripCell: 5,
+		table: 5,
+		grid: 8,
+		strip: 5,
 		style: []
 	}
 })
 
 
 export default function useApp() {
+
+	// Temp Local Storage method
+	if(localStorage.getItem("appSettings")) {
+		let userSettings = JSON.parse(localStorage.getItem("appSettings"))
+		appSettings.view = userSettings.view
+	}
+	const saveToLocalStorage = data => localStorage.setItem("appSettings", JSON.stringify(data))
+	watchEffect(() => saveToLocalStorage(appSettings))
+
+
 	const toggleSettings = () => appSettings.overlays.settings = !appSettings.overlays.settings;
 	const toggleHelp = () => appSettings.overlays.help = !appSettings.overlays.help;
 
@@ -33,7 +43,7 @@ export default function useApp() {
 
 	const layoutStyle = computed(() => {
 		return {
-			'--media-cell-size': appSettings.view.gridCell + 'em'
+			'--media-cell-size': appSettings.view[appSettings.view.layout] + 'em'
 		}
 	})
 

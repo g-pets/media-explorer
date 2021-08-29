@@ -3,9 +3,8 @@
 filters-panel
 	
 .media-container.section-scrolled(:class="`${view.layout}-layout`" :style="layoutStyle")
-	.item-active(v-if="view.layout === 'strip'")
+	.item-preview(v-if="view.layout === 'strip'")
 		video(:src="selectedRecord.video_files[3].url" controls muted autoplay loop)
-
 	.items-list
 		media-item(
 			v-for="(item, index) in filteredRecords"
@@ -83,6 +82,13 @@ export default {
 
 <style lang="stylus">	
 .media-container
+	.size
+		position: absolute
+		top: 3em
+		left: 0
+		font-size: 2em
+		z-index: 1000000
+		background: red
 	&.table-layout
 		.items-list
 			display: flex
@@ -93,30 +99,42 @@ export default {
 		.items-list
 			display: grid
 			grid-template-columns: repeat( auto-fill, minmax(var(--media-cell-size), 1fr) )
-			// grid-template-rows: repeat(auto-fill, 8vw)
-			// grid-template-columns: repeat( auto-fill, minmax(10em, 1fr) )			
-			// width: 100%
-			// min-height: 100%
 			gap: 1vw
 			padding: 1vw
+	
+	
 	&.strip-layout
 		display: flex
 		flex-direction: column
-		.item-active
-			margin: auto
-			width: 90%
+		justify-content: flex-end
+		align-items: center
+		max-height: 100%
+		min-width: 15em
+		min-height: 15em
+		.item-preview
+			flex: 1 1 auto
+			width: 100%
+			padding: 1em
+			overflow: hidden
+			display: flex
+			justify-content center
 			video
-				width: 100%
+				max-width: 100%
+				
 		.items-list
+			flex: 1 0 auto
 			display: flex
 			width: 100%
-			gap: 1vw
+			max-height: var(--media-cell-size)
+			min-height: 3em
+			gap: calc(var(--media-cell-size) * 0.1)
 			overflow scroll
 			background: #222
-			padding: 1em 0.5em
+			padding: calc(var(--media-cell-size) * 0.1) 0.5em
 			.media-item
-				flex: 1 0 auto
-				width: 7em
+				flex: 0 0 auto
+				height: 100%
+				width: auto
 
 
 
