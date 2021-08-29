@@ -1,15 +1,16 @@
 // Sort Array
 const sortArray = ( key, array ) => {
-	let init = performance.now()
+	// let init = performance.now()
 	try {
 		return array.sort((a, b) => {
 			return a[key] - b[key];
 		});
 	} catch(error) {
-		console.log(error)
-	} finally {
-		console.log(`%cSort Array time: ${performance.now() - init} ms`, 'color: #1e8a44; font-weight: bold')
+		console.error(error)
 	}
+	// } finally {
+	// 	console.log(`%cSort Array time: ${performance.now() - init} ms`, 'color: #1e8a44; font-weight: bold')
+	// }
 }
 
 // Binary Search
@@ -35,10 +36,11 @@ const bSearch = ( id, array ) => {
 		}
 		return position
 	} catch(error) {
-		console.log(error)
-	} finally {
-		// console.log(`%cBinary Search time: ${performance.now() - init} ms`, 'color: #1e8a44; font-weight: bold')
+		console.error(error)
 	}
+	// } finally {
+	// 	console.log(`%cBinary Search time: ${performance.now() - init} ms`, 'color: #1e8a44; font-weight: bold')
+	// }
 }
 
 export { sortArray, bSearch }

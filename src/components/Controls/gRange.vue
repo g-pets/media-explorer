@@ -51,14 +51,14 @@ export default {
 	input[type=range]
 		&::-webkit-slider-runnable-track
 			width: 100%
-			height: 0.5em
+			height: 0.3em
 			cursor: pointer
 			background: var(--c-blue)
 		&:focus::-webkit-slider-runnable-track
 			background: var(--c-blue)
 	input[type=range]::-moz-range-track
 		width: 100%
-		height: 0.5em
+		height: 0.3em
 		cursor: pointer
 		background: var(--c-blue)
 		animate: 0.2s
