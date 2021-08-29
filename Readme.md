@@ -16,7 +16,11 @@ Live version: [explorer.gololobov.dev](https://explorer.gololobov.dev)
 * p: Reject record
 * 0-5: Set rating
 
-
+## 🐞 Need to Fix:
+* Improve perfomance!!!
+* Fix Switch to next record after "Rejected";
+* Fix "DataCloneError";
+* Fix Key Bindings;
 
 ## 📝 ToDo:
 * Fill Readme.md;
@@ -36,7 +40,3 @@ Live version: [explorer.gololobov.dev](https://explorer.gololobov.dev)
 * Add Settings:
 	* API Settings;
 	* Appearance Settings;
-
-## 🐞 Need to Fix:
-* Fix: Switch to next record after "Rejected";
-* Fix "DataCloneError";
