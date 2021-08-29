@@ -65,8 +65,10 @@ export default {
 	&:hover, &:focus
 		transition: 0.1s box-shadow
 		box-shadow: 0 0 0 0.4vw #555
+		z-index: 10
 	&.selected
 		box-shadow: 0 0 0 0.4vw var(--c-light-blue)
+		z-index: 10
 	svg.icon
 		width: 1.2em
 		height: 1.2em

@@ -38,6 +38,4 @@ Live version: [explorer.gololobov.dev](https://explorer.gololobov.dev)
 	* Appearance Settings;
 
 ## 🐞 Need to Fix:
-* Fix "Strip view" whith one item in roll;
-* Fix rolls shrink in "Strip view";
 * Fix selected item after Filtering;
