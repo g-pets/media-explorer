@@ -67,6 +67,7 @@ export default {
 			height: 0.2em
 			cursor: pointer
 			background: var(--c-blue)
+			border-radius: 0.2em
 		&:focus::-webkit-slider-runnable-track
 			background: var(--c-blue)
 	input[type=range]::-moz-range-track
@@ -75,6 +76,7 @@ export default {
 		cursor: pointer
 		background: var(--c-blue)
 		animate: 0.2s
+		border-radius: 0.2em
 	
 	// Thumb
 	input[type=range]

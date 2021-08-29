@@ -93,10 +93,6 @@ export default {
 		.items-list
 			display: grid
 			grid-template-columns: repeat( auto-fill, minmax(var(--media-cell-size), 1fr) )
-			// grid-template-rows: repeat(auto-fill, 8vw)
-			// grid-template-columns: repeat( auto-fill, minmax(10em, 1fr) )			
-			// width: 100%
-			// min-height: 100%
 			gap: 1vw
 			padding: 1vw
 	&.strip-layout
@@ -105,18 +101,21 @@ export default {
 		.item-active
 			margin: auto
 			width: 90%
+			// flex: 0 1 min-content
 			video
 				width: 100%
 		.items-list
+			// flex: 0 1 max-content
 			display: flex
 			width: 100%
-			gap: 1vw
+			gap: calc(var(--media-cell-size) * 0.1)
 			overflow scroll
 			background: #222
-			padding: 1em 0.5em
+			padding: calc(var(--media-cell-size) * 0.1) 0.5em
 			.media-item
 				flex: 1 0 auto
-				width: 7em
+				width: var(--media-cell-size)
+				min-width: 3em
 
 
 

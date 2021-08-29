@@ -1,4 +1,4 @@
-import { reactive, toRefs, computed } from "vue"
+import { reactive, toRefs, computed, onBeforeMount, watchEffect } from "vue"
 
 const appSettings = reactive({
 	fetchUrl: "/localShort.json",
@@ -22,6 +22,16 @@ const appSettings = reactive({
 
 
 export default function useApp() {
+
+	// Temp Local Storage method
+	if(localStorage.getItem("appSettings")) {
+		let userSettings = JSON.parse(localStorage.getItem("appSettings"))
+		appSettings.view = userSettings.view
+	}
+	const saveToLocalStorage = data => localStorage.setItem("appSettings", JSON.stringify(data))
+	watchEffect(() => saveToLocalStorage(appSettings))
+
+
 	const toggleSettings = () => appSettings.overlays.settings = !appSettings.overlays.settings;
 	const toggleHelp = () => appSettings.overlays.help = !appSettings.overlays.help;
 
