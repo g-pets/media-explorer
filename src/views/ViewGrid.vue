@@ -19,6 +19,7 @@ view-control
 </template>
 
 <script>
+
 import { onMounted } from "vue"
 import useRecords from "~/store/Records.js"
 import useApp from "~/store/App"

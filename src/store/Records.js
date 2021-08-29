@@ -3,6 +3,7 @@ import { sortArray, bSearch } from "./Utils"
 
 const store = reactive({
 	fetchUrl: "/localShort.json",
+	// fetchUrl: "/localMedium.json",
 	// fetchUrl: "/localFull.json",
 	fetchStatus: {
 		isLoading: true,
