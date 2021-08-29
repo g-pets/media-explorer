@@ -38,4 +38,4 @@ Live version: [explorer.gololobov.dev](https://explorer.gololobov.dev)
 	* Appearance Settings;
 
 ## 🐞 Need to Fix:
-* Fix selected item after Filtering;
+* Fix "DataCloneError"

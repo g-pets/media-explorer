@@ -54,6 +54,7 @@ export default function useStore() {
 			if(!filters.showRejected) result = result.filter(item => !item.rejected)
 			if(!filters.showProcessed) result = result.filter(item => !item.processed)
 			if(filters.showAuthor) result = result.filter(item => item.author.id == records.selectedRecord.author.id)
+			if(result[0]) records.selectedRecord = result[0]
 			return result
 		} catch(error) {
 			console.log(error)
@@ -69,6 +70,7 @@ export default function useStore() {
 				data = data.join(" ")
 				if(data.includes(q)) return true
 			})
+			if(result[0]) records.selectedRecord = result[0]
 			return result
 		} catch(error) {
 			console.log(error)
@@ -77,19 +79,21 @@ export default function useStore() {
 	
 
 	const selectRecord = id => records.selectedRecord = filteredRecords.value.find(record => record.id == id)
-	
 	const selectedRecordIndex = computed(() => bSearch(records.selectedRecord.id, filteredRecords.value))
 	
-	const rejectRecord = (id = records.selectedRecord.id) => {
-		let record = filteredRecords.value.find(record => record.id == id)
-		record.rejected = !record.rejected
-	}
+	
 
 	const nextRecord = n => {
 		if( selectedRecordIndex.value + n < 0 || selectedRecordIndex.value + n >= filteredRecords.value.length ) return // return, if out of index
 		let nextIndex = selectedRecordIndex.value + n
 		records.selectedRecord = filteredRecords.value[nextIndex]
 		document.getElementById(`media-item-${records.selectedRecord.id}`).scrollIntoView({behavior: "smooth", block: "center", inline: "center"})
+	}
+
+	const rejectRecord = (id = records.selectedRecord.id) => {
+		let record = filteredRecords.value.find(record => record.id == id)
+		record.rejected = !record.rejected
+		if(record.rejected) nextRecord(1)
 	}
 	
 	const setRating = rating => records.selectedRecord.rating = rating

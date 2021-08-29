@@ -24,7 +24,7 @@
 		],
 		"rating": 2,
 		"processed": false,
-		"rejected": false,
+		"rejected": true,
 		"tempo": "normal",
 		"video_files": [
 			{
