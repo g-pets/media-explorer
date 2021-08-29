@@ -34,17 +34,18 @@ export default function useStore() {
 			if(!response.ok) throw new Error(`Fetching from API: ${response.statusText}`)
 			let parsed = await response.json();
 			let data = parsed;
+			if(!data.length) throw new Error(`No data...`)
 			data = sortArray("id", data);
 			console.log(`· Fetched ${data.length} items.`);
 			records.fetchedRecords = data;
-			records.selectedRecord = records.fetchedRecords[0]
+			records.selectedRecord = data[0];
+			store.fetchStatus.isLoading = false;
 		} catch(error) {
 			console.error(`‼️ Fetched: ${error}`)
 			store.fetchStatus.isError = true
 			store.fetchStatus.errorMessage = error.message
 		} finally {
 			console.groupEnd();
-			store.fetchStatus.isLoading = false;
 		}
 	}
 
@@ -71,6 +72,7 @@ export default function useStore() {
 				if(data.includes(q)) return true
 			})
 			if(result[0]) records.selectedRecord = result[0]
+			console.log('filteredRecords')
 			return result
 		} catch(error) {
 			console.log(error)
@@ -88,10 +90,11 @@ export default function useStore() {
 		let nextIndex = selectedRecordIndex.value + n
 		records.selectedRecord = filteredRecords.value[nextIndex]
 		document.getElementById(`media-item-${records.selectedRecord.id}`).scrollIntoView({behavior: "smooth", block: "center", inline: "center"})
+		console.log(`Next: ${n}`)
 	}
 
 	const rejectRecord = (id = records.selectedRecord.id) => {
-		let record = filteredRecords.value.find(record => record.id == id)
+		let record = filteredRecords.value.find(record => record.id == id)		
 		record.rejected = !record.rejected
 		if(record.rejected) nextRecord(1)
 	}

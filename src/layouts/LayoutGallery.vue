@@ -1,20 +1,37 @@
 <template lang="pug">
 .layout.layout-media-explorer
 	area-top-bar
-	area-content
-		router-view
-	area-tool-bar
+
+	.loading(v-if="fetchStatus.isLoading")
+		loading-indicator
+		.status-message
+			template(v-if="fetchStatus.isError") {{fetchStatus.errorMessage}}
+			template(v-else) Loading...
+	
+	template(v-else)
+		area-content
+			router-view
+		area-tool-bar
+
 	area-status-bar
 </template>
 
 
 <script>
+import { onBeforeMount } from "vue"
+import useRecords from "~/store/Records.js"
 import AreaTopBar from "~/components/Areas/AreaTopBar.vue"
 import AreaContent from "~/components/Areas/AreaContent.vue"
 import AreaToolBar from "~/components/Areas/AreaToolBar.vue"
 import AreaStatusBar from "~/components/Areas/AreaStatusBar.vue"
+import LoadingIndicator from  "~/components/Misc/LoadingIndicator.vue"
 export default {
-	components: { AreaTopBar, AreaContent, AreaToolBar, AreaStatusBar }
+	components: { AreaTopBar, AreaContent, AreaToolBar, AreaStatusBar, LoadingIndicator },
+	setup() {
+		const { fetchRecords, fetchStatus } = useRecords()
+		onBeforeMount(() => fetchRecords())
+		return { fetchStatus }
+	}
 }
 </script>
 
@@ -57,4 +74,13 @@ export default {
 		position: sticky
 		bottom: 0
 		z-index: 3
+	.loading
+		// height: 100%
+		grid-column: 1/-1
+		background: var(--c-tool-bar-bg)
+		display: flex
+		flex-direction: column
+		justify-content: center
+		align-items: center
+
 </style>

@@ -38,4 +38,5 @@ Live version: [explorer.gololobov.dev](https://explorer.gololobov.dev)
 	* Appearance Settings;
 
 ## 🐞 Need to Fix:
-* Fix "DataCloneError"
+* Fix: Switch to next record after "Rejected";
+* Fix "DataCloneError";
