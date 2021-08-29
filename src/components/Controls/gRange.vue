@@ -45,27 +45,42 @@ export default {
 		outline: none // Removes the blue border. You should probably do some kind of focus styling for accessibility reasons though
 
 	
-	// Thumb
-	input[type=range]::-webkit-slider-thumb, input[type=range]::-moz-range-thumb
-		-webkit-appearance: none
-		border: none
-		height: 1em
-		width: 1em
-		border-radius: 50%
-		background: #eee
-		cursor: pointer
-		margin-top: -0.5em // You need to specify a margin in Chrome, but in Firefox and IE it is automatic
 	
-
+	
 	// Track
-	input[type=range]::-webkit-slider-runnable-track, input[type=range]::-moz-range-track
+	input[type=range]
+		&::-webkit-slider-runnable-track
+			width: 100%
+			height: 0.5em
+			cursor: pointer
+			background: var(--c-blue)
+		&:focus::-webkit-slider-runnable-track
+			background: var(--c-blue)
+	input[type=range]::-moz-range-track
 		width: 100%
-		height: 0.2em
+		height: 0.5em
 		cursor: pointer
 		background: var(--c-blue)
-
-	input[type=range]:focus::-webkit-slider-runnable-track
-		background: #367ebd
+		animate: 0.2s
+	
+	// Thumb
+	input[type=range]
+		&::-webkit-slider-thumb
+			border: none
+			height: 1em
+			width: 1em
+			border-radius: 50%
+			background: #eee
+			cursor: pointer
+			margin-top: -0.2em
+			-webkit-appearance: none
+		&::-moz-range-thumb	
+			border: none
+			height: 1em
+			width: 1em
+			border-radius: 50%
+			background: #eee
+			cursor: pointer	
 
 	
 </style>

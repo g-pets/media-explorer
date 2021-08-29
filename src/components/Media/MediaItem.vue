@@ -68,14 +68,14 @@ export default {
 	&.selected
 		box-shadow: 0 0 0 0.4vw var(--c-light-blue)
 	svg.icon
-		width: 1.5em
-		height: 1.5em
+		width: 1.2em
+		height: 1.2em
 		position: absolute
 		z-index: 1
 		&.icon-reject
-			fill: red
-			top: 0.5em
-			left: 0.5em
+			fill: #d62f2f
+			top: 0.3em
+			left: 0.3em
 		&.icon-check
 			fill: #fff
 			top: 0.5em
